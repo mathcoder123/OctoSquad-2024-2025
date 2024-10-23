@@ -54,8 +54,10 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="TeleOp", group="Iterative OpMode")
 public class BasicOpMode_Iterative extends OpMode {
     // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
-    private Attachments robot = new Attachments();
+    private final ElapsedTime runtime = new ElapsedTime();
+    private final Attachments robot = new Attachments();
+    public boolean hangLockOpen = false;
+    public boolean yPressed = false;
 
     // Definitions
     // private DcMotor leftDrive = null;
@@ -235,30 +237,97 @@ public class BasicOpMode_Iterative extends OpMode {
         }
 
 
-        // font
-        if (gamepad1.left_bumper) {
-            robot.clawServo.setPosition(Constants.clawOpen);
-        } else if (gamepad1.right_bumper) {
-            robot.clawServo.setPosition(Constants.clawClose);
+        // Vertical Slide
+        if (gamepad1.right_bumper) {
+            robot.setVerticalLinear(1, Constants.verticalSlideHigh);
+        } else if (gamepad1.right_trigger>0.02) {
+            robot.setVerticalLinear(1, Constants.verticalSlideLow);
+        } else if (gamepad1.left_bumper) {
+            robot.setVerticalLinear(1, Constants.verticalSlideSubmersible);
         }
 
-        if (gamepad1.left_trigger > 0) {
-            robot.backClawServo.setPosition(Constants.backClawOpen);
-        } else if (gamepad1.right_trigger > 0) {
-            robot.clawServo.setPosition(Constants.backClawClose);
+        // Basket Servo
+        if (gamepad1.y){
+            robot.setBasketServo(Constants.basketOpen);
+        }
+        else {
+            robot.setBasketServo(Constants.basketClosed);
         }
 
         if (gamepad1.x) {
-            robot.setHorizontalLinear(1, Constants.horizontalSlideLow);
-        } else if (gamepad1.y) {
-            robot.setHorizontalLinear(1, Constants.horizontalSlideHigh);
+            robot.setBackClawServo(Constants.backClawOpen);
+        }
+        else if (gamepad1.b) {
+            robot.setBackClawServo(Constants.backClawClose);
         }
 
-        if (gamepad1.a) {
-            robot.setHorizontalLinear(1, Constants.verticalSlideLow);
-        } else if (gamepad1.b) {
-            robot.setHorizontalLinear(1, Constants.verticalSlideHigh);
+
+        // Controller 2
+        // Hang
+        if (gamepad2.right_trigger > 0.02) {
+            robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
         }
+        else if (gamepad2.right_bumper) {
+            robot.hang(1, Constants.hangLeftHigh, Constants.hangRightHigh);
+        }
+
+        // Hang Servos
+        if (gamepad2.right_bumper) {
+            if (!yPressed) {
+                yPressed = true;
+                if (!hangLockOpen) {
+                    hangLockOpen = true;
+                    robot.setLeftHangServo(Constants.hangLeftOpen);
+                    robot.setRightHangServo(Constants.hangRightOpen);
+                }
+                else {
+                    hangLockOpen = false;
+                    robot.setLeftHangServo(Constants.hangLeftClosed);
+                    robot.setRightHangServo(Constants.hangRightClosed);
+                }
+            }
+        }
+        else {
+            yPressed = false;
+        }
+
+        if (gamepad2.right_stick_y > 0.02) {
+            double move = robot.getClawArmPosition()+0.01;
+            if (move > Constants.clawArmUp) {
+                move = Constants.clawArmUp;
+            }
+
+            if (move < Constants.clawArmDown) {
+                move = Constants.clawArmDown;
+            }
+            robot.setClawArmServo(move);
+        }
+        else if (gamepad2.right_stick_y < 0.02) {
+            double move = robot.getClawArmPosition()-0.01;
+            if (move > Constants.clawArmUp) {
+                move = Constants.clawArmUp;
+            }
+
+            if (move < Constants.clawArmDown) {
+                move = Constants.clawArmDown;
+            }
+            robot.setClawArmServo(move);
+        }
+        //Vertical Arm
+        if (gamepad2.x) {
+            robot.setClawArmServo(Constants.clawArmMiddle);
+        }
+
+        // Back Claw
+        if (gamepad2.left_trigger > 0.02) {
+            robot.setBackClawServo(Constants.backClawClose);
+        }
+        else if (gamepad2.left_bumper) {
+            robot.setBackClawServo(Constants.backClawOpen);
+        }
+
+
+
 
 
 
@@ -475,7 +544,6 @@ public class BasicOpMode_Iterative extends OpMode {
     /*
      * Code to run ONCE after the driver hits STOP
      */
-
     }
     @Override
     public void stop() {

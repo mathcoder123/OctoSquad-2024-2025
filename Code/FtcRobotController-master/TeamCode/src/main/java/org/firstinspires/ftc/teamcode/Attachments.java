@@ -48,8 +48,9 @@ public class Attachments{
         RF = hardwareMap.get(DcMotorEx.class, "RF");
         RB = hardwareMap.get(DcMotorEx.class, "RB");
 
-        RF.setDirection(DcMotorEx.Direction.FORWARD);  // Motor facing forward
+        RF.setDirection(DcMotorEx.Direction.REVERSE);  // Motor facing forward
         RB.setDirection(DcMotorEx.Direction.REVERSE);
+        leftLiftMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
         leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -75,25 +76,29 @@ public class Attachments{
         // Camera
         //webcam = hardwareMap.get(WebcamName.class, webcam);
 
-        telemetry.addLine("Camera Initialized");
-        telemetry.update();
+//        telemetry.addLine("Camera Initialized");
+//        telemetry.update();
 
         // Change Drive Motor Modes if not autonomous
-        if (!auto) {
-//            setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//            setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//            setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        } else {
-//            visionProcessor = new VisionProcessor();
-//            visionPortal = VisionPortal.easyCreateWithDefaults(webcam, visionProcessor);
-        }
-
+//        if (!auto) {
+////            setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+////            setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+////            setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        } else {
+////            visionProcessor = new VisionProcessor();
+////            visionPortal = VisionPortal.easyCreateWithDefaults(webcam, visionProcessor);
+//        }
+//
     }
 
     // Run Motors
-    public void hang(double power) {
+    public void hang(double power, int positionLeft, int positionRight) {
         leftLiftMotor.setPower(power);
-        rightLiftMotor.setPower(-power);
+        rightLiftMotor.setPower(power);
+        leftLiftMotor.setTargetPosition(positionLeft);
+        leftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightLiftMotor.setTargetPosition(positionRight);
+        rightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     // Set Motors
     public void setHorizontalLinear(double power, int position) {
