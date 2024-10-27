@@ -24,10 +24,10 @@ public class Attachments{
     // public WebcamName webcam;
     // public VisionPortal visionPortal;
 
-    public void initialize(HardwareMap hardwareMap, Telemetry telemetry_, boolean auto) {
+    public void initialize(HardwareMap hardwareMap){//, Telemetry telemetry_) {
 
         // Random Stuff IDK
-        telemetry = telemetry_;
+//        telemetry = telemetry_;
         //FtcDashboard dashboard = FtcDashboard.getInstance();
 
 
@@ -38,39 +38,40 @@ public class Attachments{
 //        telemetry.update();
 
         // Motors
-        leftLiftMotor = hardwareMap.get(DcMotorEx.class, "leftLiftMotor");
-        rightLiftMotor = hardwareMap.get(DcMotorEx.class, "rightLiftMotor");
-        horizontalLinear = hardwareMap.get(DcMotorEx.class, "horizontalLinear");
-        verticalLinear = hardwareMap.get(DcMotorEx.class, "verticalLinear");
+        leftLiftMotor = hardwareMap.get(DcMotorEx.class, "leftLiftMotor"); //
+        rightLiftMotor = hardwareMap.get(DcMotorEx.class, "rightLiftMotor"); //
+        horizontalLinear = hardwareMap.get(DcMotorEx.class, "horizontalLinear"); //
+        verticalLinear = hardwareMap.get(DcMotorEx.class, "verticalLinear"); //
 
-        LF = hardwareMap.get(DcMotorEx.class, "LF");
-        LB = hardwareMap.get(DcMotorEx.class, "LB");
-        RF = hardwareMap.get(DcMotorEx.class, "RF");
-        RB = hardwareMap.get(DcMotorEx.class, "RB");
+        LF = hardwareMap.get(DcMotorEx.class, "LF"); //
+        LB = hardwareMap.get(DcMotorEx.class, "LB"); //
+        RF = hardwareMap.get(DcMotorEx.class, "RF"); //
+        RB = hardwareMap.get(DcMotorEx.class, "RB"); //
 
-        RF.setDirection(DcMotorEx.Direction.REVERSE);  // Motor facing forward
-        RB.setDirection(DcMotorEx.Direction.REVERSE);
-        leftLiftMotor.setDirection(DcMotorEx.Direction.REVERSE);
+//        RF.setDirection(DcMotorEx.Direction.REVERSE);  // Motor facing forward
+        RF.setDirection(DcMotorEx.Direction.REVERSE);
+        LB.setDirection(DcMotorEx.Direction.REVERSE);
+      //leftLiftMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
         leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         horizontalLinear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         verticalLinear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        telemetry.addLine("Motors Initialized");
-        telemetry.update();
+//        telemetry.addLine("Motors Initialized");
+//        telemetry.update();
 
 
         // Servos
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         basketServo = hardwareMap.get(Servo.class, "basketServo");
-        leftHangServo = hardwareMap.get(Servo.class, "leftClawServo");
-        rightHangServo = hardwareMap.get(Servo.class, "rightClawServo");
+//        leftHangServo = hardwareMap.get(Servo.class, "leftClawServo");
+//        rightHangServo = hardwareMap.get(Servo.class, "rightClawServo");
         backClawServo = hardwareMap.get(Servo.class, "backClawServo");
         clawArmServo = hardwareMap.get(Servo.class, "clawArmServo");
 
-        telemetry.addLine("Servos Initialized");
-        telemetry.update();
+//        telemetry.addLine("Servos Initialized");
+//        telemetry.update();
 
 
         // Camera

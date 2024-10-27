@@ -27,7 +27,7 @@ public class Constants {
     public static double hangRightOpen = 0.4;
     public static double hangRightClosed = 0.5;
 
-    public static double basketOpen = 0.4;
+    public static double basketOpen = .99;
     public static double basketClosed = 0.5;
 
     /* -------------------------------------------- MOTOR CONSTANTS -------------------------------------------- */
