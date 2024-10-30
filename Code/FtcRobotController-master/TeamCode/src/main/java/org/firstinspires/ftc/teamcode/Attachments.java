@@ -56,6 +56,8 @@ public class Attachments{
         leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         horizontalLinear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        horizontalLinear.setTargetPosition(-10);
+//        horizontalLinear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         verticalLinear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 //        telemetry.addLine("Motors Initialized");
@@ -102,8 +104,15 @@ public class Attachments{
         rightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     // Set Motors
-    public void setHorizontalLinear(double power, int position) {
+    public void setHorizontalLinearPower(double power){//, int position) {
+        horizontalLinear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         horizontalLinear.setPower(power);
+//        horizontalLinear.setTargetPosition(position);
+//        horizontalLinear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void setHorizontalLinear(int position) {
+        horizontalLinear.setPower(1);
         horizontalLinear.setTargetPosition(position);
         horizontalLinear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
