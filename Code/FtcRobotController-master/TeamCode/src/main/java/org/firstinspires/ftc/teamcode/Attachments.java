@@ -72,7 +72,7 @@ public class Attachments{
         backClawServo = hardwareMap.get(Servo.class, "backClawServo");
         clawArmServo = hardwareMap.get(Servo.class, "clawArmServo");
 
-//        telemetry.addLine("Servos Initialized");
+/*//        telemetry.addLine("Servos Initialized");
 //        telemetry.update();
 
 
@@ -91,7 +91,7 @@ public class Attachments{
 ////            visionProcessor = new VisionProcessor();
 ////            visionPortal = VisionPortal.easyCreateWithDefaults(webcam, visionProcessor);
 //        }
-//
+//*/
     }
 
     // Run Motors
@@ -159,8 +159,8 @@ public class Attachments{
     }
     public double getBasketServoPosition() {
         return basketServo.getPosition();
-    }
-
+    } }
+/*
     // Getting Prop Location
 //    public int getPropLocation() {
 //        VisionProcessor.Selected selection = visionProcessor.getSelection();
@@ -176,4 +176,4 @@ public class Attachments{
 //    }
 
 
-}
+}*/

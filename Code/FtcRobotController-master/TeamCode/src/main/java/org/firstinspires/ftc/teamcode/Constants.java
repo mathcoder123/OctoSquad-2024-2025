@@ -16,7 +16,7 @@ public class Constants {
     public static double backClawClose = 0.68;
     public static double backClawOpen = 0.54;
 
-    public static double clawArmDown = 0;
+    public static double clawArmDown = 0.025;
     public static double clawArmUp = 0.55;
     public static double clawArmMiddle = 0.10;
     //public static double clawArmSpeed = 0.05;
@@ -37,8 +37,8 @@ public class Constants {
     public static int horizontalSlideHigh = -1000;
 
     public static int verticalSlideLow = 0;
-    public static int verticalSlideHigh = -3140;
-    public static int verticalSlideSubmersible = -2200;
+    public static int verticalSlideHigh = -3200;
+    public static int verticalSlideSubmersible = -2100;
     public static int verticalSlideBasket = -1700;
 
     public static int hangLeftLow = 0;
@@ -46,57 +46,4 @@ public class Constants {
 
     public static int hangRightLow = 0;
     public static int hangRightHigh = 3200;
-//13
-//    public static double liftUpRatio = 1;
-//    public static double liftDownRatio = 0.8;
-//    public static int liftSlow = 100;
-//    public static double liftSlowRatio = 0.4;
-
-//    public static int liftTolerance = 15;
-//    public static int liftkPTele = 10;
-//    public static double liftkP = 0.005; // 10
-//    public static double liftkI = 0;
-//    public static double liftkD = 0.001;
-//    public static double liftkF = 0.25;
-//    public static double liftMinPow = 0.1;
-
-
-
-//
-//    public static int hangMin = 0;
-//    public static int hangLow = 0;
-//    public static int hangHigh = 1000;
-//    public static int hangMax = 1000;
-//
-//    public static double hangUpRatio = 1;
-//    public static double hangDownRatio = 0.8;
-//    public static int hangSlow = 100;
-//    public static double hangSlowRatio = 0.4;
-//
-//    public static int hangTolerance = 15;
-//    public static int hangkPTele = 10;
-//    public static double hangkP = 0.005; // 10
-//    public static double hangkI = 0;
-//    public static double hangkD = 0.001;
-//    public static double hangkF = 0.25;
-//    public static double hangMinPow = 0.1;
-
-
-    /* -------------------------------------------- VISION CONSTANTS -------------------------------------------- */
-//
-//    public static int rLx = 5;
-//    public static int rLy = 320;
-//    public static int rLw = 100;
-//    public static int rLh = 80;
-//
-//    public static int rRx = 500;
-//    public static int rRy = 330;
-//    public static int rRw = 135;
-//    public static int rRh = 80;
-//
-//    public static int rMx = 140;
-//    public static int rMy = 300;
-//    public static int rMw = 300;
-//    public static int rMh = 50;
-
 }
