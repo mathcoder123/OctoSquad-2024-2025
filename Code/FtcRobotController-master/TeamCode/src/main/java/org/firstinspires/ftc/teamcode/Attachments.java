@@ -25,8 +25,6 @@ public class Attachments{
     // public VisionPortal visionPortal;
 
     public void initialize(HardwareMap hardwareMap){//, Telemetry telemetry_) {
-
-        // Random Stuff IDK
 //        telemetry = telemetry_;
         //FtcDashboard dashboard = FtcDashboard.getInstance();
 

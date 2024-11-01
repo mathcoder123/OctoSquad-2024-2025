@@ -62,33 +62,6 @@ public class BasicOpMode_Iterative extends OpMode {
     private final Attachments robot = new Attachments();
     public boolean hangLockOpen = false;
     public boolean yPressed = false;
-
-    // Definitions
-    // private DcMotor leftDrive = null;
-    // private DcMotor rightDrive = null;
-    // FIX CONSTANTS ----------------------------------------------------------------------------
-    /*private double clawPosition = Constants.clawOpen;
-    private double clawArmPosition = Constants.clawArmDown;
-    private double planePosition = Constants.planeHold;
-
-    private double liftPower = 0;
-    private boolean useLiftPower = true;
-    private boolean liftModeUpdate = false;
-    private boolean liftUseEnc = true;
-    private int targetLiftPosition = Constants.liftLow;
-    //private int currentLiftPosition = robot.getLiftMotorPosition();
-
-    private double hangPower = 0;
-    private boolean useHangPower = true;
-    private boolean hangModeUpdate = false;
-    private boolean hangUseEnc = true;
-    private int targetHangPosition = Constants.hangLow;
-    //private int currentHangPosition = robot.getHangMotorPosition();
-
-    private boolean limits = true;*/
-
-
-
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -134,71 +107,6 @@ public class BasicOpMode_Iterative extends OpMode {
      */
     @Override
     public void loop() {
-        /*
-        // Setup a variable for each drive wheel to save power level for telemetry
-        double leftPower;
-        double rightPower;
-
-        // Choose to drive using either Tank Mode, or POV Mode
-        // Comment out the method that's not used.  The default below is POV.
-
-        // POV Mode uses left stick to go forward, and right stick to turn.
-        // - This uses basic math to combine motions and is easier to drive straight.
-        double drive = -gamepad1.left_stick_y;
-        double turn  =  gamepad1.right_stick_x;
-        leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-        rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-
-        // Tank Mode uses one stick to control each wheel.
-        // - This requires no math, but it is hard to drive forward slowly and keep straight.
-        // leftPower  = -gamepad1.left_stick_y ;
-        // rightPower = -gamepad1.right_stick_y ;
-
-        // Send calculated power to wheels
-        leftDrive.setPower(leftPower);
-        rightDrive.setPower(rightPower);
-
-        // Show the elapsed game time and wheel power.
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);*/
-        /*
-        double lx = gamepad1.left_stick_x;
-        double ly = -gamepad1.left_stick_y;
-        double speedMultiplier = Constants.moveSpeed;
-        double rotationMultiplier = Constants.rotSpeed;
-
-        // D-pad
-        if (gamepad1.dpad_up) {
-            ly = 1;
-            lx = 0;
-            speedMultiplier = 0.3;
-        } else if (gamepad1.dpad_down) {
-            ly = -1;
-            lx = 0;
-            speedMultiplier = 0.3;
-        }
-        if (gamepad1.dpad_left) {
-            lx = -1;
-            ly = 0;
-            speedMultiplier = 0.3;
-        } else if (gamepad1.dpad_right) {
-            lx = 1;
-            ly = 0;
-            speedMultiplier = 0.3;
-        }
-
-        // Math
-        double theta = Math.atan2(lx, ly);
-        double v_theta = Math.sqrt(lx * lx + ly * ly);
-        double v_rotation = gamepad1.right_stick_x;*/
-        /*
-        // Drive
-
-        // Move seperate motors
-        // robot.drive(theta, speedMultiplier * v_theta, rotationMultiplier * v_rotation);
-
-        */
-        /* -------------------------------------------- TODO -------------------------------------------- */
         double y = -gamepad1.left_stick_y; // Forward/backward
         double x = gamepad1.left_stick_x; // Left/right
         double rx = -gamepad1.right_stick_x; // Rotation
