@@ -16,7 +16,7 @@ public class Constants {
     public static double backClawClose = 0.68;
     public static double backClawOpen = 0.54;
 
-    public static double clawArmDown = 0.025;
+    public static double clawArmDown = 0.03;
     public static double clawArmUp = 0.55;
     public static double clawArmMiddle = 0.10;
     //public static double clawArmSpeed = 0.05;
@@ -37,9 +37,9 @@ public class Constants {
     public static int horizontalSlideHigh = -1000;
 
     public static int verticalSlideLow = 0;
-    public static int verticalSlideHigh = -3200;
-    public static int verticalSlideSubmersible = -2100;
-    public static int verticalSlideBasket = -1700;
+    public static int verticalSlideHigh = -4365;//3200;
+    public static int verticalSlideSubmersible = -2936;//2100;
+    public static int verticalSlideBasket = -2377;//1700;
 
     public static int hangLeftLow = 0;
     public static int hangLeftHigh = -3200;
