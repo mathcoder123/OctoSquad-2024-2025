@@ -123,7 +123,8 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
     // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
     static final double     COUNTS_PER_MOTOR_REV    = 537.7 ;   // eg: GoBILDA 312 RPM Yellow Jacket
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
-    static final double     WHEEL_DIAMETER_INCHES   = 4.1 ;     // For figuring circumference
+   // For figuring circumference
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
 
@@ -199,29 +200,23 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
         //          holdHeading() is used after turns to let the heading stabilize
         //          Add a sleep(2000) after any step to keep the telemetry data visible for review
 
-        driveStraight(DRIVE_SPEED, -6.0, 0.0);    // Drive Forward 24"
-        turnToHeading( TURN_SPEED, -90.0);               // Turn  CW to -45 Degrees
-        holdHeading( TURN_SPEED, -90.0, 0.5);   // Hold -45 Deg heading for a 1/2 second
+        driveStraight(DRIVE_SPEED, 12.0, 0.0);    // Drive Forward 24"
+        turnToHeading( TURN_SPEED, -45.0);               // Turn  CW to -45 Degrees
+        holdHeading( TURN_SPEED, -45.0, 0.5);   // Hold -45 Deg heading for a 1/2 second
 
-        driveStraight(DRIVE_SPEED, -46.0, -90.0);  // Drive Forward 17" at -45 degrees (12"x and 12"y)
-//        turnToHeading( TURN_SPEED,  45.0);               // Turn  CCW  to  45 Degrees
-//        holdHeading( TURN_SPEED,  90.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
+        driveStraight(DRIVE_SPEED, 12.0, -45.0);  // Drive Forward 17" at -45 degrees (12"x and 12"y)
+        turnToHeading( TURN_SPEED,  45.0);               // Turn  CCW  to  45 Degrees
+        holdHeading( TURN_SPEED,  45.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
 
-//        driveStraight(DRIVE_SPEED, 12.0, 45.0);  // Drive Forward 17" at 45 degrees (-12"x and 12"y)
-//        turnToHeading( TURN_SPEED,   0.0);               // Turn  CW  to 0 Degrees
-//        holdHeading( TURN_SPEED,   90.0, 0.5);    // Hold  0 Deg heading for 1 second
+        driveStraight(DRIVE_SPEED, 12.0, 45.0);  // Drive Forward 17" at 45 degrees (-12"x and 12"y)
+        turnToHeading( TURN_SPEED,   0.0);               // Turn  CW  to 0 Degrees
+        holdHeading( TURN_SPEED,   0.0, 1.0);    // Hold  0 Deg heading for 1 second
 
-        //driveStraight(DRIVE_SPEED,-24.0, 0.0);    // Drive in Reverse 48" (should return to approx. staring position)
-
-
-
+        driveStraight(DRIVE_SPEED,-24.0, 0.0);    // Drive in Reverse 48" (should return to approx. staring position)
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
-
-        while (opModeIsActive()){}
-
-        //sleep(1000);  // Pause to display last telemetry message.
+        sleep(1000);  // Pause to display last telemetry message.
     }
 
     /*
