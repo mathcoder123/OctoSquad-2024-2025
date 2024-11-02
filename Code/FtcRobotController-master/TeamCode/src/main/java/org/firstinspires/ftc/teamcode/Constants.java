@@ -37,9 +37,9 @@ public class Constants {
     public static int horizontalSlideHigh = -1000;
 
     public static int verticalSlideLow = 0;
-    public static int verticalSlideHigh = -3200;
-    public static int verticalSlideSubmersible = -2100;
-    public static int verticalSlideBasket = -1700;
+    public static int verticalSlideHigh = -4475;//3200;
+    public static int verticalSlideSubmersible = -2936;//2100;
+    public static int verticalSlideBasket = -2377;//1700;
 
     public static int hangLeftLow = 0;
     public static int hangLeftHigh = -3200;
