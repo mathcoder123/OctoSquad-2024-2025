@@ -55,8 +55,8 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="TeleOp1", group="Iterative OpMode")
-public class BasicOpMode_Iterative extends OpMode {
+@TeleOp(name="HangTest", group="Iterative OpMode")
+public class HangTest extends OpMode {
     // Declare OpMode members.
     private final ElapsedTime runtime = new ElapsedTime();
     private final Attachments robot = new Attachments();
@@ -65,7 +65,6 @@ public class BasicOpMode_Iterative extends OpMode {
     public int pastCountR = 0;
     public int newCountR = 0;
     public boolean hangOn = false;
-    /*
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -111,104 +110,27 @@ public class BasicOpMode_Iterative extends OpMode {
      */
     @Override
     public void loop() {
-        double y = -gamepad1.left_stick_y; // Forward/backward
-        double x = gamepad1.left_stick_x; // Left/right
-        double rx = -gamepad1.right_stick_x; // Rotation
-
-        // Calculate the motor power drive
-        double frontLeftPower = y + x + rx;
-        double frontRightPower = y - x - rx;
-        double backLeftPower = y - x + rx;
-        double backRightPower = y + x - rx;
-
-        // DRIVE
-
-        if (gamepad1.dpad_up) {
-            robot.LF.setPower(.5);
-            robot.LB.setPower(.5);
-            robot.RF.setPower(.5);
-            robot.RB.setPower(.5);
-        }
-        else if (gamepad1.dpad_down) {
-            robot.LF.setPower(-.5);
-            robot.LB.setPower(-.5);
-            robot.RF.setPower(-.5);
-            robot.RB.setPower(-.5);
-        }
-        else if (gamepad1.dpad_right) {
-            robot.LF.setPower(.5);
-            robot.LB.setPower(-.5);
-            robot.RF.setPower(-.5);
-            robot.RB.setPower(.5);
-        }
-        else if (gamepad1.dpad_left) {
-            robot.LF.setPower(-.4);
-            robot.LB.setPower(.4);
-            robot.RF.setPower(.4);
-            robot.RB.setPower(-.4);
-        }
-        else{
-        robot.LF.setPower(frontLeftPower);
-        robot.LB.setPower(backLeftPower);
-        robot.RF.setPower(frontRightPower);
-        robot.RB.setPower(backRightPower);
-        }/*
-         */
-
-
-        // Vertical Slide - 15cm
-        if (gamepad1.right_bumper) {
-            robot.setVerticalLinear(1, Constants.verticalSlideHigh);
-        } else if (gamepad1.right_trigger>0.02) {
-            robot.setVerticalLinear(1, Constants.verticalSlideLow);
-            robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
-        } else if (gamepad1.left_bumper) {
-            robot.setVerticalLinear(1, Constants.verticalSlideSubmersible);
-        } else if (gamepad1.left_trigger>0.02) {
-            robot.setVerticalLinear(1, Constants.verticalSlideBasket);
-        }
-
-        // Basket Servo
-        if (gamepad1.y){
-            robot.setBasketServo(Constants.basketOpen);
-        }
-        else {
-            robot.setBasketServo(Constants.basketClosed);
-        }
-
-        if (gamepad1.x) {
-            robot.setBackClawServo(Constants.backClawOpen);
-        }
-        else{// if (gamepad1.b) {
-            robot.setBackClawServo(Constants.backClawClose);
-        }
-
-
-        // Controller 2
-        newCountL = robot.getLeftLiftMotorPosition();
-        newCountR = robot.getRightLiftMotorPosition();
-
-        if (gamepad1.a) {
-            robot.leftLiftMotor.setPower(0);
-            robot.rightLiftMotor.setPower(0);
-            hangOn = false;
-            robot.hang(1, Constants.hangLeftHigh, Constants.hangRightHigh);
-            robot.setLeftHangServo(Constants.hangLeftClosed);
-            robot.setRightHangServo(Constants.hangRightClosed);
-        }
+               // Controller 2
+        // Hang
+//        if (gamepad2.a) {
+//            if (robot.leftLiftMotor.getVelocity() > 0) {
+//                robot.rightLiftMotor.setPower(-1);
+//                robot.leftLiftMotor.setPower(1); }
+//            else {
+//                robot.rightLiftMotor.setPower(0);
+//                robot.leftLiftMotor.setPower(0);
+//            }
+//        }
+//        if (gamepad1.a) {
+//            robot.hang(1, Constants.hangLeftHigh, Constants.hangRightHigh);
+//        }
 //        else if (gamepad1.b) {
 //            robot.hang(1, Constants.hangLeftDown, Constants.hangRightDown);
 //        }
-        else if (gamepad1.right_trigger>0.02) {
-            hangOn = false;
-            robot.setLeftHangServo(Constants.hangLeftClosed);
-            robot.setRightHangServo(Constants.hangRightClosed);
-            robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
-            robot.leftLiftMotor.setPower(0);
-            robot.rightLiftMotor.setPower(0);
-        }
-
-//         Hang Servos
+//        else if (gamepad1.right_trigger>0.02) {
+//            robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow); }
+//
+////         Hang Servos
 //        if (gamepad2.left_bumper) {
 //            robot.setLeftHangServo(Constants.hangLeftOpen);
 //            robot.setRightHangServo(Constants.hangRightOpen);
@@ -217,30 +139,38 @@ public class BasicOpMode_Iterative extends OpMode {
 //            robot.setLeftHangServo(Constants.hangLeftClosed);
 //            robot.setRightHangServo(Constants.hangRightClosed);
 //        }
+//
+//        telemetry.addData("leftHang", robot.getLeftLiftMotorPosition());
+//        telemetry.addData("rightHang", robot.getRightLiftMotorPosition());
+
+        newCountL = robot.getLeftLiftMotorPosition();
+        newCountR = robot.getRightLiftMotorPosition();
+
+
+
+
+
 
         if (gamepad1.b) {
 
             hangOn = true;
             //if ((newCountL - pastCountL) > 0) {
-            robot.leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.leftLiftMotor.setPower(.6);
-
+                robot.leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.leftLiftMotor.setPower(.6);
             //else {
-            //  robot.setLeftHangServo(Constants.hangLeftOpen);
+              //  robot.setLeftHangServo(Constants.hangLeftOpen);
             //}
 
             //if ((newCountR - pastCountR) < 0) {
-            robot.rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.rightLiftMotor.setPower(-.6);
+                robot.rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.rightLiftMotor.setPower(-.6);
             //else {
-            //  robot.setRightHangServo(Constants.hangRightOpen);
+              //  robot.setRightHangServo(Constants.hangRightOpen);
             //}
         }
 
         if (hangOn) {
             if(newCountL == pastCountL) {
-                robot.setLeftHangServo(Constants.hangLeftOpen);
-                robot.setRightHangServo(Constants.hangRightOpen);
                 robot.leftLiftMotor.setPower(0);
                 robot.rightLiftMotor.setPower(0);
             }
@@ -254,47 +184,9 @@ public class BasicOpMode_Iterative extends OpMode {
         telemetry.addData("leftHang", robot.getLeftLiftMotorPosition());
         telemetry.addData("rightHang", robot.getRightLiftMotorPosition());
         telemetry.update();
-//
-        double power = -gamepad2.left_stick_y;
-        if (power > 0.05) {
-            double move = robot.getClawArmPosition()+0.01;
-            if (move > Constants.clawArmUp) {
-                move = Constants.clawArmUp;
-            }
-            robot.setClawArmServo(move);
-        }
-        else  if (power < -0.05) {
-            double move = robot.getClawArmPosition()-0.01;
-            if (move < Constants.clawArmDown) {
-                move = Constants.clawArmDown;
-            }
-            robot.setClawArmServo(move);
-        }
-        //Vertical Arm
-        if (gamepad2.x) {
-            robot.setClawArmServo(Constants.clawArmMiddle);
-        }
-
-        if (gamepad2.y) {
-            robot.setClawArmServo(Constants.clawArmMiddleHigh);
-        }
-
-        if (gamepad2.right_trigger > 0.02) {
-            robot.setClawServo(Constants.clawOpen);
-        }
-        else {
-            robot.setClawServo(Constants.clawClose);
-        }
-
-        double power2 = -gamepad2.right_stick_y;
-        if (power2 > 0.01 && robot.getHorizontalSlidePosition() > -890) {// && robot.getHorizontalSlidePosition() > -890) {
-            robot.setHorizontalLinearPower(-power2); }
-        else if ((power2 < -0.01 & robot.getHorizontalSlidePosition() < 0)){// && robot.getHorizontalSlidePosition() < 0) {
-            robot.setHorizontalLinearPower(-power2);}
-        else {
-            robot.setHorizontalLinearPower(0); }
-}
+    }
     @Override
     public void stop() {
+
     }
 }
