@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/OctoSquad-2024-2025.iml" filepath="$PROJECT_DIR$/.idea/OctoSquad-2024-2025.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Code/FtcRobotController-master/TeamCode/TeamCode.iml" filepath="$PROJECT_DIR$/Code/FtcRobotController-master/TeamCode/TeamCode.iml" />
     </modules>
   </component>
 </project>

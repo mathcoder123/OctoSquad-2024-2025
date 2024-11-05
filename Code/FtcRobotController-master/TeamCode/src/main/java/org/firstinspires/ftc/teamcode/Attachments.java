@@ -138,6 +138,12 @@ public class Attachments{
     public int getVerticalSlidePosition() {
         return verticalLinear.getCurrentPosition();
     }
+    public int getLeftLiftMotorPosition() {
+        return leftLiftMotor.getCurrentPosition();
+    }
+    public int getRightLiftMotorPosition() {
+        return rightLiftMotor.getCurrentPosition();
+    }
 
     // Get Servo Positions
     public double getClawPosition() {
