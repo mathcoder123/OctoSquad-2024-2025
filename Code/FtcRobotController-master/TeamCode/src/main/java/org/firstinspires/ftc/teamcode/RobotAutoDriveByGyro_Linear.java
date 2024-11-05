@@ -38,8 +38,12 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+
+import java.util.Locale;
+
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 /*
@@ -94,6 +98,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
 
+    GoBildaPinpointDriver odo;
+    double oldTime = 0;
+
+
+
     /* Declare OpMode members. */
     private DcMotorEx         LF   = null;
     private DcMotorEx         LB  = null;
@@ -115,7 +124,7 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
     private int     leftTarget    = 0;
     private int     rightTarget   = 0;
 
-    // Calculate the COUNTS_PER_INCH for your specific drive train.
+    // Calculate the COUNTS_PER_CM for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
     // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
     // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
@@ -123,9 +132,9 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
     // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
     static final double     COUNTS_PER_MOTOR_REV    = 537.7 ;   // eg: GoBILDA 312 RPM Yellow Jacket
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
-    static final double     WHEEL_DIAMETER_INCHES   = 4.1 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     WHEEL_DIAMETER_CM   = 10.414 ;     // For figuring circumference
+    static final double     COUNTS_PER_CM         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_CM * 3.141592);
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
@@ -144,6 +153,24 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
+
+        odo.setOffsets(-84.0, -168.0);
+
+        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+
+        odo.recalibrateIMU();
+        odo.resetPosAndIMU();
+
+        telemetry.addData("Status", "Initialized");
+        telemetry.addData("X offset", odo.getXOffset());
+        telemetry.addData("Y offset", odo.getYOffset());
+        telemetry.addData("Device Version Number:", odo.getDeviceVersion());
+        telemetry.addData("Device Scalar", odo.getYawScalar());
+        telemetry.update();
+
         // Initialize the drive system variables.
         LF = hardwareMap.get(DcMotorEx.class, "LF"); //
         LB = hardwareMap.get(DcMotorEx.class, "LB"); //
@@ -153,6 +180,7 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
 //        RF.setDirection(DcMotorEx.Direction.REVERSE);  // Motor facing forward
         RF.setDirection(DcMotorEx.Direction.REVERSE);
         LB.setDirection(DcMotorEx.Direction.REVERSE);
+
         //leftLiftMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
         /* The next two lines define Hub orientation.
@@ -168,8 +196,8 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
 
         // Now initialize the IMU with this mounting orientation
         // This sample expects the IMU to be in a REV Hub and named "imu".
-        imu = hardwareMap.get(IMU.class, "imu");
-        imu.initialize(new IMU.Parameters(orientationOnRobot));
+        //imu = hardwareMap.get(IMU.class, "imu");
+        //imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         // Ensure the robot is stationary.  Reset the encoders and set the motors to BRAKE mode
         LF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -183,6 +211,7 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
 
         // Wait for the game to start (Display Gyro value while waiting)
         while (opModeInInit()) {
+            odo.update();
             telemetry.addData(">", "Robot Heading = %4.0f", getHeading());
             telemetry.update();
         }
@@ -192,18 +221,22 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
         LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        imu.resetYaw();
+        //imu.resetYaw();
 
         // Step through each leg of the path,
         // Notes:   Reverse movement is obtained by setting a negative distance (not speed)
         //          holdHeading() is used after turns to let the heading stabilize
         //          Add a sleep(2000) after any step to keep the telemetry data visible for review
 
-        driveStraight(DRIVE_SPEED, -6.0, 0.0);    // Drive Forward 24"
-        turnToHeading( TURN_SPEED, -90.0);               // Turn  CW to -45 Degrees
-        holdHeading( TURN_SPEED, -90.0, 0.5);   // Hold -45 Deg heading for a 1/2 second
+        //turnToHeading(TURN_SPEED, 90.0);
+        driveStraight(DRIVE_SPEED, 50, 0.0);    // Drive Forward 24"
+        //turnToHeading( TURN_SPEED, -90.0);               // Turn  CW to -45 Degrees
+        //holdHeading( TURN_SPEED, -90.0, 0.5);   // Hold -45 Deg heading for a 1/2 second
 
-        driveStraight(DRIVE_SPEED, -46.0, -90.0);  // Drive Forward 17" at -45 degrees (12"x and 12"y)
+        //driveStraight(DRIVE_SPEED, -46.0, -90.0);
+
+
+        // Drive Forward 17" at -45 degrees (12"x and 12"y)
 //        turnToHeading( TURN_SPEED,  45.0);               // Turn  CCW  to  45 Degrees
 //        holdHeading( TURN_SPEED,  90.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
 
@@ -219,9 +252,11 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
         telemetry.addData("Path", "Complete");
         telemetry.update();
 
-        while (opModeIsActive()){}
+        //while (opModeIsActive()){}
 
-        //sleep(1000);  // Pause to display last telemetry message.
+        sleep(1000);  // Pause to display last telemetry message.
+
+        odo.update();
     }
 
     /*
@@ -253,7 +288,7 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            int moveCounts = (int)(distance * COUNTS_PER_INCH);
+            int moveCounts = (int)(distance * COUNTS_PER_CM);
             leftTarget = LF.getCurrentPosition() + moveCounts;
             leftTarget = LB.getCurrentPosition() + moveCounts;
             rightTarget = RF.getCurrentPosition() + moveCounts;
@@ -281,6 +316,7 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
                     (LF.isBusy() && LB.isBusy())
             ) {
 
+                odo.update();
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
 
@@ -413,8 +449,8 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
         driveSpeed = drive;     // save this value as a class member so it can be used by telemetry.
         turnSpeed  = turn;      // save this value as a class member so it can be used by telemetry.
 
-        leftSpeed  = drive + turn;
-        rightSpeed = drive - turn;
+        leftSpeed  = drive - turn;
+        rightSpeed = drive + turn;
 
         // Scale speeds down if either one exceeds +/- 1.0;
         double max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
@@ -456,8 +492,26 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
     /**
      * read the Robot heading directly from the IMU (in degrees)
      */
+
     public double getHeading() {
-        YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-        return orientation.getYaw(AngleUnit.DEGREES);
+        odo.update();
+        Pose2D pos = odo.getPosition();
+        //String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
+        double heading = pos.getHeading(AngleUnit.DEGREES);
+        return heading;
     }
+    public double getX() {
+        odo.update();
+        Pose2D pos = odo.getPosition();
+        double X = pos.getX(DistanceUnit.MM);
+        return X;
+    }
+    public double getY() {
+        odo.update();
+        Pose2D pos = odo.getPosition();
+        double Y = pos.getY(DistanceUnit.MM);
+        return Y;
+    }
+
+
 }
