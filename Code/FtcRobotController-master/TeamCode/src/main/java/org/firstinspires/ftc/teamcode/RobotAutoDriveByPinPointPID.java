@@ -122,6 +122,47 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
     private double  leftBackSpeed     = 0;
     private double  rightBackSpeed    = 0;
 
+//    public static double clawClose = 0.67;
+//    public static double clawOpen = 0.5;
+//
+//    public static double backClawClose = 0.68;
+//    public static double backClawOpen = 0.54;
+//
+//    public static double clawArmDown = 0.03;
+//    public static double clawArmUp = 0.55;
+//    public static double clawArmMiddle = 0.10;
+//    public static double clawArmMiddleHigh = 0.30;
+//    //public static double clawArmSpeed = 0.05;
+//
+//    public static double hangLeftOpen = 0.4;
+//    public static double hangLeftClosed = 0.5;
+//
+//    public static double hangRightOpen = 0.4;
+//    public static double hangRightClosed = 0.5;
+//
+//    public static double basketOpen = 1;
+//    public static double basketClosed = 0.54;
+//
+//    /* -------------------------------------------- MOTOR CONSTANTS -------------------------------------------- */
+//
+//
+//    public static int horizontalSlideLow = 0;
+//    public static int horizontalSlideHigh = -1000;
+//
+//    public static int verticalSlideLow = 0;
+//    public static int verticalSlideHigh = -4365;//3200;
+//    public static int verticalSlideSubmersible = -2936;//2100;
+//    public static int verticalSlideBasket = -2377;//1700;
+//
+//    public static int hangLeftLow = 0;
+//    public static int hangLeftHigh = -3200;
+//    public static int hangLeftDown = 100;
+//
+//    public static int hangRightLow = 0;
+//    public static int hangRightHigh = 3200;
+//    public static int hangRightDown = -100;
+
+
 
 
     // Calculate the COUNTS_PER_INCH for your specific drive train.
@@ -151,7 +192,9 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
 
 
     static final double    P_DRIVE_THRESHOLD       = 60.0;
-    static final double    P_DRIVE_MAX_ERROR       = 0.02;
+    static final double    P_DRIVE_MAX_ERROR = 0.02;
+
+
 
     @Override
     public void runOpMode() {
@@ -189,7 +232,7 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
-        //odo.recalibrateIMU();
+//        odo.recalibrateIMU();
         odo.resetPosAndIMU();
 
         telemetry.addData("Status", "Initialized");
@@ -241,9 +284,48 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
         //1.0 had -0.5 cm error at 60 cm thresh (undershoot) @ 100 dis
         //1.0 had -0.2 cm error at 60 cm thresh (undershoot) @ 200 dis
 
+        //////////TODO TODO TODO TODO TODO TODO TODO TODO TODO //////////////////////////////////
+        //////////TODO TODO TODO TODO TODO TODO TODO TODO TODO //////////////////////////////////
+        //////////TODO TODO TODO TODO TODO TODO TODO TODO TODO //////////////////////////////////
+        //////////TODO TODO TODO TODO TODO TODO TODO TODO TODO //////////////////////////////////
 
-        //driveRightPID(1.0, 200, 0, 60, 0.2);
-        driveLeftPID(1.0, 200, 0, 60, 0.2);
+        // Specimen hang
+
+        driveReversePID(1.0, 25, 0, 60, 0.6);
+        robot.setBackClawServo(Constants.backClawClose);
+        robot.setClawArmServo(Constants.clawArmMiddleHigh);
+        robot.setVerticalLinear(1.0,-300);
+        driveRightPID(1.0, 28, 0, 60, 0.6);
+        robot.setVerticalLinear(1.0,-2400);
+//        driveRightPID(1.0, 30, 0, 60, 0.6);
+        driveReversePID(1.0,44, 0,60,0.6);
+        driveReversePIDLim(0.2,1000, 0,60,0.6, 66); // 1 second = 66.666
+        robot.setVerticalLinear(1.0, -1600);
+        robot.setBackClawServo(Constants.backClawOpen);
+
+        // High Basket Drop
+        driveForwardPID(1.0,19, 0,60,1);
+        robot.setVerticalLinear(1.0, 0);
+        driveRightPID(1.0,80, 0,60,1);
+        turnToHeading(.8, -137);
+        robot.setClawArmServo(Constants.clawArmDown);
+        robot.setClawServo(Constants.clawOpen);
+        odo.recalibrateIMU();
+        timer(70);
+        driveForwardPID(0.4,4, 0,60,0.2);
+        robot.setBasketServo(Constants.basketClosed);
+        robot.setClawServo(Constants.clawClose);
+        timer(120);
+        robot.setClawArmServo(Constants.clawArmUp);
+        timer(70);
+        robot.setClawServo(Constants.clawOpen); //
+////        timer(1000);
+//        turnToHeading(.8, -180);
+//        driveReversePID(1.0, 8, -180, 60, 0.6);
+//        turnToHeading(.8, -235);
+
+
+
 
         //driveForwardPID(1.0, 200, 0, 60, 0.2);
         //driveReversePID(1,200,0,60.0,0.2);
@@ -297,6 +379,16 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
 
     //forward X +
     //left Y +
+    public void timer(int count) {
+        int timer = 0;
+        while (true) {
+            timer++;
+            if (timer > count) {
+                return;
+            }
+        }
+    }
+
     public void driveForwardPID(double maxDriveSpeed,
                                 double distance,
                                 double heading,
@@ -381,6 +473,65 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
                 turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
                 speedFact = (errorX / pThreshold);
                 moveRobot((maxDriveSpeed * speedFact), turnSpeed, yCorrection);
+            }
+        }
+        LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        moveRobot(0, 0, 0);
+    }
+
+    public void driveReversePIDLim(double maxDriveSpeed,
+                                double distance,
+                                double heading,
+                                double pThreshold,
+                                double maxError,
+                                   double limit){
+        double counter = 0;
+        double newX =0;
+        double currentX=0;
+        double yCorrection =0;
+        double yInit=0;
+
+        if (opModeIsActive()) {
+            odo.update();
+            Pose2D pos = odo.getPosition();
+            currentX = pos.getX(DistanceUnit.CM);
+            newX = currentX - distance;
+            yInit = pos.getY(DistanceUnit.CM);
+        }
+
+        //move forward PID
+        double errorX;
+        errorX = newX - currentX;
+
+
+        while(opModeIsActive() && (errorX < (-1.0*maxError))) {
+            counter ++;
+            if (counter <= limit) {
+                odo.update();
+                Pose2D pos = odo.getPosition();
+                currentX = pos.getX(DistanceUnit.CM);
+                errorX = newX - currentX;
+                yCorrection = pos.getY(DistanceUnit.CM) - yInit;
+                if (errorX < (-1.0*pThreshold) ) {
+                    //move at 1, correct for rotation error
+                    turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
+                    moveRobot((-1.0 * maxDriveSpeed), turnSpeed, yCorrection);
+                } else {
+                    double speedFact;
+                    turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
+                    speedFact = (errorX / pThreshold);
+                    moveRobot((maxDriveSpeed * speedFact), turnSpeed, yCorrection);
+            }}
+            else {
+                LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                LB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                RF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                RB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                moveRobot(0, 0, 0);
+                return;
             }
         }
         LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -741,8 +892,8 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
      * @param holdTime   Length of time (in seconds) to hold the specified heading.
      */
     public void holdHeading(double maxTurnSpeed, double heading, double holdTime) {
-
         ElapsedTime holdTimer = new ElapsedTime();
+        turnToHeading(.8, -180);
         holdTimer.reset();
 
         // keep looping while we have time remaining.

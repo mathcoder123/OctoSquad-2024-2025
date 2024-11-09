@@ -19,7 +19,7 @@ public class Constants {
     public static double clawArmDown = 0.03;
     public static double clawArmUp = 0.55;
     public static double clawArmMiddle = 0.10;
-    public static double clawArmMiddleHigh = 0.30;
+    public static double clawArmMiddleHigh = 0.40;
     //public static double clawArmSpeed = 0.05;
 
     public static double hangLeftOpen = 0.4;
