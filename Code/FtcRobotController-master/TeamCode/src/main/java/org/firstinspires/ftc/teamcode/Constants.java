@@ -22,13 +22,13 @@ public class Constants {
     public static double clawArmMiddleHigh = 0.40;
     //public static double clawArmSpeed = 0.05;
 
-    public static double hangLeftOpen = 0.4;
+    public static double hangLeftOpen = 0.6;
     public static double hangLeftClosed = 0.5;
 
     public static double hangRightOpen = 0.4;
     public static double hangRightClosed = 0.5;
 
-    public static double basketOpen = 1;
+    public static double basketOpen = 1.02; //1
     public static double basketClosed = 0.54;
 
     /* -------------------------------------------- MOTOR CONSTANTS -------------------------------------------- */
@@ -38,9 +38,10 @@ public class Constants {
     public static int horizontalSlideHigh = -1000;
 
     public static int verticalSlideLow = 0;
-    public static int verticalSlideHigh = -4365;//3200;
-    public static int verticalSlideSubmersible = -2936;//2100;
-    public static int verticalSlideBasket = -2377;//1700;
+    public static int verticalSlideHigh = -3080;//3200;
+    public static int verticalSlideSubmersible = -1950;//1950;
+    public static int verticalSlideBasket = -1640;//1700;
+    public static int verticalSlidePickup = -600;//1700;
 
     public static int hangLeftLow = 0;
     public static int hangLeftHigh = -3200;

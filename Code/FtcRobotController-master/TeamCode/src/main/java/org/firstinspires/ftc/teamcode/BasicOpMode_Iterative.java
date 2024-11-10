@@ -167,6 +167,9 @@ public class BasicOpMode_Iterative extends OpMode {
         } else if (gamepad1.left_trigger>0.02) {
             robot.setVerticalLinear(1, Constants.verticalSlideBasket);
         }
+        else if (gamepad1.left_stick_button) {
+            robot.setVerticalLinear(1, Constants.verticalSlidePickup);
+        }
 
         // Basket Servo
         if (gamepad1.y){
@@ -192,7 +195,7 @@ public class BasicOpMode_Iterative extends OpMode {
             robot.leftLiftMotor.setPower(0);
             robot.rightLiftMotor.setPower(0);
             hangOn = false;
-            robot.hang(1, Constants.hangLeftHigh, Constants.hangRightHigh);
+//            robot.hang(1, Constants.hangLeftHigh, Constants.hangRightHigh);
             robot.setLeftHangServo(Constants.hangLeftClosed);
             robot.setRightHangServo(Constants.hangRightClosed);
         }
@@ -208,6 +211,7 @@ public class BasicOpMode_Iterative extends OpMode {
             robot.rightLiftMotor.setPower(0);
         }
 
+
 //         Hang Servos
 //        if (gamepad2.left_bumper) {
 //            robot.setLeftHangServo(Constants.hangLeftOpen);
@@ -222,16 +226,16 @@ public class BasicOpMode_Iterative extends OpMode {
 
             hangOn = true;
             //if ((newCountL - pastCountL) > 0) {
-            robot.leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.leftLiftMotor.setPower(.6);
+//            robot.leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            robot.leftLiftMotor.setPower(.6);
 
             //else {
             //  robot.setLeftHangServo(Constants.hangLeftOpen);
             //}
 
             //if ((newCountR - pastCountR) < 0) {
-            robot.rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.rightLiftMotor.setPower(-.6);
+//            robot.rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            robot.rightLiftMotor.setPower(-.6);
             //else {
             //  robot.setRightHangServo(Constants.hangRightOpen);
             //}
@@ -241,6 +245,10 @@ public class BasicOpMode_Iterative extends OpMode {
             if(newCountL == pastCountL) {
                 robot.setLeftHangServo(Constants.hangLeftOpen);
                 robot.setRightHangServo(Constants.hangRightOpen);
+                ElapsedTime time = new ElapsedTime();
+                time.reset();
+                while (time.milliseconds() < 70) {
+                }
                 robot.leftLiftMotor.setPower(0);
                 robot.rightLiftMotor.setPower(0);
             }

@@ -296,21 +296,23 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
         robot.setClawArmServo(Constants.clawArmMiddleHigh);
         robot.setVerticalLinear(1.0,-300);
         driveRightPID(1.0, 28, 0, 60, 0.6);
-        robot.setVerticalLinear(1.0,-2400);
+        robot.setVerticalLinear(1.0,-2800);
 //        driveRightPID(1.0, 30, 0, 60, 0.6);
         driveReversePID(1.0,44, 0,60,0.6);
         driveReversePIDLim(0.2,1000, 0,60,0.6, 66); // 1 second = 66.666
-        robot.setVerticalLinear(1.0, -1600);
+        robot.setVerticalLinear(1.0, -2290);
+        timer(2000);
         robot.setBackClawServo(Constants.backClawOpen);
-
+/*
+        timer(9999999);
         // High Basket Drop
-        driveForwardPID(1.0,19, 0,60,1);
+        driveForwardPID(1.0,20, 0,60,1);
         robot.setVerticalLinear(1.0, 0);
         driveRightPID(1.0,80, 0,60,1);
         turnToHeading(.8, -137);
         robot.setClawArmServo(Constants.clawArmDown);
         robot.setClawServo(Constants.clawOpen);
-        odo.recalibrateIMU();
+       // odo.recalibrateIMU();
         timer(70);
         driveForwardPID(0.4,4, 0,60,0.2);
         robot.setBasketServo(Constants.basketClosed);
@@ -335,7 +337,7 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
 
         //driveStraightLeft(0.1, 200.0, 0.0);  // Drive Forward 17" at -45 degrees (12"x and 12"y)
         //driveStraightRight(1, 200.0, 0.0);
-        //driveForwardPID(0.2, 100);
+        //driveForwardPID(0.2, 100);*/
 
         while (opModeIsActive()){
             odo.update();
@@ -380,13 +382,10 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
     //forward X +
     //left Y +
     public void timer(int count) {
-        int timer = 0;
-        while (true) {
-            timer++;
-            if (timer > count) {
-                return;
+        ElapsedTime time = new ElapsedTime();
+        time.reset();
+        while (time.milliseconds() < count && opModeIsActive()) {
             }
-        }
     }
 
     public void driveForwardPID(double maxDriveSpeed,

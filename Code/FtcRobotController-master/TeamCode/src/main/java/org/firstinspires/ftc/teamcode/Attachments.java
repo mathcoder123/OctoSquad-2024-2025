@@ -65,8 +65,8 @@ public class Attachments{
         // Servos
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         basketServo = hardwareMap.get(Servo.class, "basketServo");
-//        leftHangServo = hardwareMap.get(Servo.class, "leftClawServo");
-//        rightHangServo = hardwareMap.get(Servo.class, "rightClawServo");
+        leftHangServo = hardwareMap.get(Servo.class, "leftHangServo");
+        rightHangServo = hardwareMap.get(Servo.class, "rightHangServo");
         backClawServo = hardwareMap.get(Servo.class, "backClawServo");
         clawArmServo = hardwareMap.get(Servo.class, "clawArmServo");
 
