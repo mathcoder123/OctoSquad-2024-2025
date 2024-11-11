@@ -182,7 +182,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
             READY: the device is working as normal
             CALIBRATING: the device is calibrating and outputs are put on hold
             NOT_READY: the device is resetting from scratch. This should only happen after a power-cycle
-            FAULT_NO_PODS_DETECTED - the device does not detect any pods plugged in
+            _DETECTED - the device does not detect any pods plugged in
             FAULT_X_POD_NOT_DETECTED - The device does not detect an X pod plugged in
             FAULT_Y_POD_NOT_DETECTED - The device does not detect a Y pod plugged in
             */

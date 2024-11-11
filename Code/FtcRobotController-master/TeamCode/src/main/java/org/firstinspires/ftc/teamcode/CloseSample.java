@@ -88,9 +88,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
  *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="PinPointPID", group="Robot")
+@Autonomous(name="CloseSample", group="Robot")
 
-public class RobotAutoDriveByPinPointPID extends LinearOpMode {
+public class CloseSample extends LinearOpMode {
 
     private final Attachments robot = new Attachments();
 
@@ -175,14 +175,14 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
     static final double     WHEEL_DIAMETER_CM   = 10.4 ;     // For figuring circumference
     static final double     COUNTS_PER_CM         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-                                                      (WHEEL_DIAMETER_CM * 3.1415);
+            (WHEEL_DIAMETER_CM * 3.1415);
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
     static final double     DRIVE_SPEED             = 0.4;     // Max driving speed for better distance accuracy.
     static final double     TURN_SPEED              = 0.1;     // Max turn speed to limit turn rate.
     static final double     HEADING_THRESHOLD       = 0.1 ;    // How close must the heading get to the target before moving to next step.
-                                                               // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
+    // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
     // Define the Proportional control coefficient (or GAIN) for "heading control".
     // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
     // Increase these numbers if the heading does not correct strongly enough (eg: a heavy robot or using tracks)
@@ -291,36 +291,43 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
 
         // Specimen hang
 
-        driveReversePID(1.0, 25, 0, 60, 0.6);
+        driveForwardPID(1.0, 12, 0, 60, 0.6);
         robot.setBackClawServo(Constants.backClawClose);
         robot.setClawArmServo(Constants.clawArmMiddleHigh);
-        robot.setVerticalLinear(1.0,-300);
-        driveRightPID(1.0, 28, 0, 60, 0.6);
-        robot.setVerticalLinear(1.0,-2800);
-//        driveRightPID(1.0, 30, 0, 60, 0.6);
-        driveReversePID(1.0,44, 0,60,0.6);
-        driveReversePIDLim(0.2,1000, 0,60,0.6, 66); // 1 second = 66.666
-        robot.setVerticalLinear(1.0, -2290);
-        timer(2000);
-        robot.setBackClawServo(Constants.backClawOpen);
-/*
-        timer(9999999);
-        // High Basket Drop
-        driveForwardPID(1.0,20, 0,60,1);
-        robot.setVerticalLinear(1.0, 0);
-        driveRightPID(1.0,80, 0,60,1);
-        turnToHeading(.8, -137);
-        robot.setClawArmServo(Constants.clawArmDown);
-        robot.setClawServo(Constants.clawOpen);
-       // odo.recalibrateIMU();
-        timer(70);
-        driveForwardPID(0.4,4, 0,60,0.2);
+        robot.setVerticalLinear(1.0, -3085);
         robot.setBasketServo(Constants.basketClosed);
-        robot.setClawServo(Constants.clawClose);
-        timer(120);
-        robot.setClawArmServo(Constants.clawArmUp);
-        timer(70);
-        robot.setClawServo(Constants.clawOpen); //
+        driveLeftPID(1.0, 106, 0, 60, 0.6);
+        turnToHeading(.8, -45);
+//        driveStraight2(-11);
+        timer(1000);
+        robot.setBasketServo(Constants.basketOpen);
+        timer(1500);
+        robot.setVerticalLinear(1.0, 0);
+//        driveStraight2(15);
+
+        timer(1000);
+
+        turnToHeading(.8, 0);
+
+        driveRightPID(1.0, 240, 0, 60, 1);
+        driveReversePID(1.0, 10, 0, 60, 1);
+//        robot.setVerticalLinear(1.0, 0);
+//
+//        robot.setClawArmServo(Constants.clawArmDown);
+//        robot.setClawServo(Constants.clawOpen);
+//        timer(100);
+//        robot.setHorizontalLinear(-480);
+////        driveForwardPID(0.4,4, 0,60,0.2);
+//        robot.setBasketServo(Constants.basketClosed);
+//        timer(500);
+//        robot.setClawServo(Constants.clawClose+0.01);
+//        timer(500);
+//        robot.setHorizontalLinear(0);
+//        robot.setClawArmServo(Constants.clawArmUp);
+//        timer(1000);
+//        robot.setClawServo(Constants.clawOpen);
+
+
 ////        timer(1000);
 //        turnToHeading(.8, -180);
 //        driveReversePID(1.0, 8, -180, 60, 0.6);
@@ -385,7 +392,7 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
         ElapsedTime time = new ElapsedTime();
         time.reset();
         while (time.milliseconds() < count && opModeIsActive()) {
-            }
+        }
     }
 
     public void driveForwardPID(double maxDriveSpeed,
@@ -482,10 +489,10 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
     }
 
     public void driveReversePIDLim(double maxDriveSpeed,
-                                double distance,
-                                double heading,
-                                double pThreshold,
-                                double maxError,
+                                   double distance,
+                                   double heading,
+                                   double pThreshold,
+                                   double maxError,
                                    double limit){
         double counter = 0;
         double newX =0;
@@ -523,7 +530,7 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
                     turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
                     speedFact = (errorX / pThreshold);
                     moveRobot((maxDriveSpeed * speedFact), turnSpeed, yCorrection);
-            }}
+                }}
             else {
                 LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 LB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -653,7 +660,7 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
 
         // Ensure that the OpMode is still active
         if (opModeIsActive()) {
-
+            odo.update();
             // Determine new target position, and pass to motor controller
             int moveCounts = (int)(distance * COUNTS_PER_CM);
             leftTarget = LF.getCurrentPosition() + moveCounts;
@@ -683,16 +690,16 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
                     (RF.isBusy() && RB.isBusy()) &&
                     (LF.isBusy() && LB.isBusy())
             ) {
-
+                //odo.update();
                 // Determine required steering to keep on heading
-                turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
+                //turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
 
                 // if driving in reverse, the motor correction also needs to be reversed
-                if (distance < 0)
-                    turnSpeed *= -1.0;
+                //if (distance < 0)
+                //    turnSpeed *= -1.0;
 
                 // Apply the turning correction to the current driving speed.
-                moveRobot(driveSpeed, turnSpeed,0);
+                moveRobot(driveSpeed, 0,0);
 
                 // Display drive status for the driver.
                 sendTelemetry(true);
@@ -769,8 +776,8 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
 
 
     public void driveStraightRight(double maxDriveSpeed,
-                                  double distance,
-                                  double heading) {
+                                   double distance,
+                                   double heading) {
 
         // Ensure that the OpMode is still active
         if (opModeIsActive()) {
@@ -1015,7 +1022,7 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
     }
 
     public void moveRightRobot(double drive, double turn, double xError) {
-            // save this value as a class member so it can be used by telemetry.
+        // save this value as a class member so it can be used by telemetry.
         double xCorrection = 0.03 * xError;
 
         leftFrontSpeed = drive - turn - xCorrection;
@@ -1043,14 +1050,48 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
         RB.setPower(rightBackSpeed);
     }
 
+    public void driveStraight2(double distance) {
+
+        LF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Ensure that the OpMode is still active
+        if (opModeIsActive()) {
+            // Determine new target position, and pass to motor controller
+            int moveCounts = (int)(distance * COUNTS_PER_CM);
+            int leftTargetF = LF.getCurrentPosition() + moveCounts;
+            int leftTargetB = LB.getCurrentPosition() + moveCounts;
+            int rightTargetF = RF.getCurrentPosition() + moveCounts;
+            int rightTargetB = RB.getCurrentPosition() + moveCounts;
+
+            // Set Target FIRST, then turn on RUN_TO_POSITION
+            LF.setTargetPosition(leftTargetF);
+            LB.setTargetPosition(leftTargetB);
+            RF.setTargetPosition(rightTargetF);
+            RB.setTargetPosition(rightTargetB);
+
+            LF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            LB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            RF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            RB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            LF.setPower(1);
+            LB.setPower(1);
+            RF.setPower(1);
+            RB.setPower(1);
+
+        } }
 
 
 
-    /**
-     *  Display the various control parameters while driving
-     *
-     * @param straight  Set to true if we are driving straight, and the encoder positions should be included in the telemetry.
-     */
+
+        /**
+         *  Display the various control parameters while driving
+         *
+         * @param straight  Set to true if we are driving straight, and the encoder positions should be included in the telemetry.
+         */
     private void sendTelemetry(boolean straight) {
 
         if (straight) {
@@ -1076,3 +1117,4 @@ public class RobotAutoDriveByPinPointPID extends LinearOpMode {
         return pos.getHeading(AngleUnit.DEGREES);
     }
 }
+

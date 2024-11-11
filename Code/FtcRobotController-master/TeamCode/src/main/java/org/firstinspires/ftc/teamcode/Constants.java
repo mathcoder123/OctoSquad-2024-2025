@@ -19,7 +19,7 @@ public class Constants {
     public static double clawArmDown = 0.03;
     public static double clawArmUp = 0.55;
     public static double clawArmMiddle = 0.10;
-    public static double clawArmMiddleHigh = 0.40;
+    public static double clawArmMiddleHigh = 0.44;
     //public static double clawArmSpeed = 0.05;
 
     public static double hangLeftOpen = 0.6;
@@ -35,19 +35,20 @@ public class Constants {
 
 
     public static int horizontalSlideLow = 0;
-    public static int horizontalSlideHigh = -1000;
+    public static int horizontalSlideHigh = -890;
 
     public static int verticalSlideLow = 0;
-    public static int verticalSlideHigh = -3080;//3200;
-    public static int verticalSlideSubmersible = -1950;//1950;
-    public static int verticalSlideBasket = -1640;//1700;
-    public static int verticalSlidePickup = -600;//1700;
+    public static int verticalSlideHigh = -3085;//3200;
+    public static int verticalSlideSubmersible = -1960;//1950;
+    public static int verticalSlideBasket = -1632;//1700;
+    public static int verticalSlidePickup = -735;//1700;
+    public static int verticalSlidePickupHigh = -1000;//1700;
 
     public static int hangLeftLow = 0;
-    public static int hangLeftHigh = -3200;
-    public static int hangLeftDown = 100;
+    public static int hangLeftPickup = -700;
+    public static int hangLeftHigh = -3100;
 
     public static int hangRightLow = 0;
-    public static int hangRightHigh = 3200;
-    public static int hangRightDown = -100;
+    public static int hangRightPickup = 700;
+    public static int hangRightHigh = 3100;
 }

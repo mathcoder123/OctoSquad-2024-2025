@@ -65,12 +65,18 @@ public class BasicOpMode_Iterative extends OpMode {
     public int pastCountR = 0;
     public int newCountR = 0;
     public boolean hangOn = false;
+    public boolean clawOn = false;
+    public boolean LHDone = false;
+    public boolean RHDone = false;
+    public boolean LoopDone = false;
+
     /*
     /*
      * Code to run ONCE when the driver hits INIT
      */
     @Override
     public void init() {
+        LoopDone = false;
         telemetry.addData("Status", "Initialized");
 
         robot.initialize(hardwareMap);
@@ -104,6 +110,8 @@ public class BasicOpMode_Iterative extends OpMode {
     @Override
     public void start() {
         runtime.reset();
+        robot.setLeftHangServo(Constants.hangLeftClosed);
+        robot.setRightHangServo(Constants.hangRightClosed);
     }
 
     /*
@@ -111,6 +119,9 @@ public class BasicOpMode_Iterative extends OpMode {
      */
     @Override
     public void loop() {
+        if (LoopDone) {
+            return;
+        }
         double y = -gamepad1.left_stick_y; // Forward/backward
         double x = gamepad1.left_stick_x; // Left/right
         double rx = -gamepad1.right_stick_x; // Rotation
@@ -159,16 +170,24 @@ public class BasicOpMode_Iterative extends OpMode {
         // Vertical Slide - 15cm
         if (gamepad1.right_bumper) {
             robot.setVerticalLinear(1, Constants.verticalSlideHigh);
+            robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
         } else if (gamepad1.right_trigger>0.02) {
             robot.setVerticalLinear(1, Constants.verticalSlideLow);
             robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
         } else if (gamepad1.left_bumper) {
             robot.setVerticalLinear(1, Constants.verticalSlideSubmersible);
+            robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
         } else if (gamepad1.left_trigger>0.02) {
             robot.setVerticalLinear(1, Constants.verticalSlideBasket);
+            robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
+        }
+        else if (gamepad1.right_stick_button) {
+            robot.setVerticalLinear(1, Constants.verticalSlidePickup);
+            robot.hang(1, Constants.hangLeftPickup, Constants.hangRightPickup);
         }
         else if (gamepad1.left_stick_button) {
-            robot.setVerticalLinear(1, Constants.verticalSlidePickup);
+            robot.setVerticalLinear(1, Constants.verticalSlidePickupHigh);
+            robot.hang(1, Constants.hangLeftPickup, Constants.hangRightPickup);
         }
 
         // Basket Servo
@@ -182,7 +201,7 @@ public class BasicOpMode_Iterative extends OpMode {
         if (gamepad1.x) {
             robot.setBackClawServo(Constants.backClawOpen);
         }
-        else{// if (gamepad1.b) {
+        else if (!clawOn){
             robot.setBackClawServo(Constants.backClawClose);
         }
 
@@ -192,16 +211,15 @@ public class BasicOpMode_Iterative extends OpMode {
         newCountR = robot.getRightLiftMotorPosition();
 
         if (gamepad1.a) {
+            clawOn = true;
+            robot.setBackClawServo(0.47);
             robot.leftLiftMotor.setPower(0);
             robot.rightLiftMotor.setPower(0);
             hangOn = false;
-//            robot.hang(1, Constants.hangLeftHigh, Constants.hangRightHigh);
+            robot.hang(1, Constants.hangLeftHigh, Constants.hangRightHigh);
             robot.setLeftHangServo(Constants.hangLeftClosed);
             robot.setRightHangServo(Constants.hangRightClosed);
         }
-//        else if (gamepad1.b) {
-//            robot.hang(1, Constants.hangLeftDown, Constants.hangRightDown);
-//        }
         else if (gamepad1.right_trigger>0.02) {
             hangOn = false;
             robot.setLeftHangServo(Constants.hangLeftClosed);
@@ -223,38 +241,47 @@ public class BasicOpMode_Iterative extends OpMode {
 //        }
 
         if (gamepad1.b) {
-
             hangOn = true;
-            //if ((newCountL - pastCountL) > 0) {
-//            robot.leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            robot.leftLiftMotor.setPower(.6);
-
-            //else {
-            //  robot.setLeftHangServo(Constants.hangLeftOpen);
-            //}
-
-            //if ((newCountR - pastCountR) < 0) {
-//            robot.rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            robot.rightLiftMotor.setPower(-.6);
-            //else {
-            //  robot.setRightHangServo(Constants.hangRightOpen);
-            //}
-        }
+            LHDone = false;
+            RHDone = false;
+            robot.leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.leftLiftMotor.setPower(.6);
+            robot.rightLiftMotor.setPower(-.6);
+            robot.setRightHangServo(Constants.hangRightClosed);
+            robot.setLeftHangServo(Constants.hangRightClosed); }
 
         if (hangOn) {
-            if(newCountL == pastCountL) {
+            if ((newCountL == pastCountL) && (LHDone == false) && (newCountL > -800)) {
+                // Open servo
                 robot.setLeftHangServo(Constants.hangLeftOpen);
-                robot.setRightHangServo(Constants.hangRightOpen);
+
+                // Wait 1 sec
                 ElapsedTime time = new ElapsedTime();
                 time.reset();
-                while (time.milliseconds() < 70) {
+                while (time.milliseconds() < 60) {
                 }
                 robot.leftLiftMotor.setPower(0);
+
+                LHDone = true;
+            }
+            if ((newCountR == pastCountR) && (RHDone == false) && (newCountR < 800)) {
+                // set servo
+                robot.setRightHangServo(Constants.hangRightOpen);
+
+                ElapsedTime time2 = new ElapsedTime();
+                time2.reset();
+                // Wait 1 sec
+                while (time2.milliseconds() < 60) {
+                }
                 robot.rightLiftMotor.setPower(0);
+                RHDone = true;
             }
 
-        }
-
+            if (LHDone && RHDone) {
+                LoopDone = true;
+                }
+            }
 
 
         pastCountL = newCountL;
@@ -262,7 +289,7 @@ public class BasicOpMode_Iterative extends OpMode {
         telemetry.addData("leftHang", robot.getLeftLiftMotorPosition());
         telemetry.addData("rightHang", robot.getRightLiftMotorPosition());
         telemetry.update();
-//
+
         double power = -gamepad2.left_stick_y;
         if (power > 0.05) {
             double move = robot.getClawArmPosition()+0.01;
@@ -271,7 +298,7 @@ public class BasicOpMode_Iterative extends OpMode {
             }
             robot.setClawArmServo(move);
         }
-        else  if (power < -0.05) {
+        else if (power < -0.05) {
             double move = robot.getClawArmPosition()-0.01;
             if (move < Constants.clawArmDown) {
                 move = Constants.clawArmDown;
@@ -279,12 +306,15 @@ public class BasicOpMode_Iterative extends OpMode {
             robot.setClawArmServo(move);
         }
         //Vertical Arm
-        if (gamepad2.x) {
+        else if (gamepad2.x) {
             robot.setClawArmServo(Constants.clawArmMiddle);
         }
 
-        if (gamepad2.y) {
+        else if (gamepad2.y) {
             robot.setClawArmServo(Constants.clawArmMiddleHigh);
+        }
+        if (robot.getClawArmPosition() < Constants.clawArmDown) {
+            robot.setClawArmServo(Constants.clawArmDown);
         }
 
         if (gamepad2.right_trigger > 0.02) {

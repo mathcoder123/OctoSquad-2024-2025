@@ -3,7 +3,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
-@Autonomous(name = "DoNothingAutonomous", group = "Autonomous")
+@Autonomous(name = "DoNothingAuto", group = "Autonomous")
 public class DoNothingAutonomous extends LinearOpMode {
 
     @Override
