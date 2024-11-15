@@ -299,6 +299,8 @@ public class CloseWaitPark extends LinearOpMode {
         robot.setVerticalLinear(1.0, 0);
         robot.setBasketServo(Constants.basketClosed);
         driveRightPID(1.0, 146, 0, 60, 0.6);
+        robot.setBasketServo(Constants.basketClosed);
+        robot.setClawArmServo(0.55);
 //        robot.setVerticalLinear(1.0, 0);
 //
 //        robot.setClawArmServo(Constants.clawArmDown);

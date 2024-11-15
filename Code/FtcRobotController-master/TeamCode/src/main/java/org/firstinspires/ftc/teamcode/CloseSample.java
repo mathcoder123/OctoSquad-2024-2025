@@ -302,15 +302,18 @@ public class CloseSample extends LinearOpMode {
         timer(1000);
         robot.setBasketServo(Constants.basketOpen);
         timer(1500);
-        robot.setVerticalLinear(1.0, 0);
 //        driveStraight2(15);
 
-        timer(1000);
+//        timer(1000);
 
         turnToHeading(.8, 0);
 
-        driveRightPID(1.0, 240, 0, 60, 1);
+        driveRightPID(1.0, 20, 0, 60, 1);
+        robot.setVerticalLinear(1.0, 0);
+        driveRightPID(1.0, 220, 0, 60, 1);
         driveReversePID(1.0, 10, 0, 60, 1);
+        robot.setBasketServo(Constants.basketClosed);
+        robot.setClawArmServo(0.55);
 //        robot.setVerticalLinear(1.0, 0);
 //
 //        robot.setClawArmServo(Constants.clawArmDown);

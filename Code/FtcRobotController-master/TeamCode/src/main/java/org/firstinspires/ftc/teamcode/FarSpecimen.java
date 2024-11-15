@@ -304,41 +304,47 @@ public class FarSpecimen extends LinearOpMode {
         timer(800);
         robot.setBackClawServo(Constants.backClawOpen);
 
-        // High Basket Drop
-        driveForwardPID(1.0,45, 0,60,1);
+        driveForwardPID(1.0,66, 0,60,1);
         robot.setVerticalLinear(1.0, 0);
-        driveRightPID(1.0,127, 0,60,1);
-        turnToHeading(.8, -180);
-        robot.setClawArmServo(Constants.clawArmDown);
-        robot.setClawServo(Constants.clawOpen);
-        timer(100);
-        robot.setHorizontalLinear(-480);
-//        driveForwardPID(0.4,4, 0,60,0.2);
+        driveLeftPID(1.0, 140, 0, 60, 1); //100 for edge
         robot.setBasketServo(Constants.basketClosed);
-        timer(500);
-        robot.setClawServo(Constants.clawClose+0.01);
-        timer(500);
-        robot.setHorizontalLinear(0);
-        robot.setClawArmServo(Constants.clawArmUp);
-        timer(1000);
-        robot.setClawServo(Constants.clawOpen); //
+        robot.setClawArmServo(0.55);
 
-        robot.setVerticalLinear(1.0, -3085);
-
-        driveLeftPID(1.0,5, 0,60,1);
-        driveReversePID(1.0,10, 0,60,1);
-        turnToHeading(.8, -225);
-
-        timer(1000);
-        robot.setBasketServo(Constants.basketOpen);
-        timer(1500);
-        robot.setVerticalLinear(1.0, 0);
-
-        timer(1000);
-
-        turnToHeading(.8, 0);
-
-        driveLeftPID(1.0, 240, 0, 60, 1);
+        // High Basket Drop
+//        driveForwardPID(1.0,45, 0,60,1);
+//        robot.setVerticalLinear(1.0, 0);
+//        driveRightPID(1.0,127, 0,60,1);
+//        turnToHeading(.8, -180);
+//        robot.setClawArmServo(Constants.clawArmDown);
+//        robot.setClawServo(Constants.clawOpen);
+//        timer(100);
+//        robot.setHorizontalLinear(-480);
+////        driveForwardPID(0.4,4, 0,60,0.2);
+//        robot.setBasketServo(Constants.basketClosed);
+//        timer(500);
+//        robot.setClawServo(Constants.clawClose+0.01);
+//        timer(500);
+//        robot.setHorizontalLinear(0);
+//        robot.setClawArmServo(Constants.clawArmUp);
+//        timer(1000);
+//        robot.setClawServo(Constants.clawOpen); //
+//
+//        robot.setVerticalLinear(1.0, -3085);
+//
+//        driveLeftPID(1.0,5, 0,60,1);
+//        driveReversePID(1.0,10, 0,60,1);
+//        turnToHeading(.8, -225);
+//
+//        timer(1000);
+//        robot.setBasketServo(Constants.basketOpen);
+//        timer(1500);
+//        robot.setVerticalLinear(1.0, 0);
+//
+//        timer(1000);
+//
+//        turnToHeading(.8, 0);
+//
+//        driveLeftPID(1.0, 240, 0, 60, 1);
 
 
 ////        timer(1000);

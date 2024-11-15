@@ -291,12 +291,15 @@ public class FarPark extends LinearOpMode {
 
         // Specimen hang
 
-        driveForwardPID(1.0, 12, 0, 60, 0.6);
+        driveForwardPID(1.0, 3, 0, 60, 0.6);
         robot.setBackClawServo(Constants.backClawClose);
         robot.setClawArmServo(Constants.clawArmMiddleHigh);
         robot.setVerticalLinear(1.0, 0);
         robot.setBasketServo(Constants.basketClosed);
-        driveRightPID(1.0, 106, 0, 60, 0.6);
+        driveRightPID(1.0, 110, 0, 60, 0.6);
+        robot.setBasketServo(Constants.basketClosed);
+        robot.setClawArmServo(0.55);
+
 //        robot.setVerticalLinear(1.0, 0);
 //
 //        robot.setClawArmServo(Constants.clawArmDown);
