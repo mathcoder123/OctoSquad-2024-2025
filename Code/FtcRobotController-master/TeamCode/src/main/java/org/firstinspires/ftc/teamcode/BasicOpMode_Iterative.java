@@ -135,28 +135,28 @@ public class BasicOpMode_Iterative extends OpMode {
         // DRIVE
 
         if (gamepad1.dpad_up) {
-            robot.LF.setPower(.5);
-            robot.LB.setPower(.5);
-            robot.RF.setPower(.5);
-            robot.RB.setPower(.5);
+            robot.LF.setPower(.65);
+            robot.LB.setPower(.65);
+            robot.RF.setPower(.65);
+            robot.RB.setPower(.65);
         }
         else if (gamepad1.dpad_down) {
-            robot.LF.setPower(-.5);
-            robot.LB.setPower(-.5);
-            robot.RF.setPower(-.5);
-            robot.RB.setPower(-.5);
+            robot.LF.setPower(-.65);
+            robot.LB.setPower(-.65);
+            robot.RF.setPower(-.65);
+            robot.RB.setPower(-.65);
         }
         else if (gamepad1.dpad_right) {
-            robot.LF.setPower(.5);
-            robot.LB.setPower(-.5);
-            robot.RF.setPower(-.5);
-            robot.RB.setPower(.5);
+            robot.LF.setPower(.65);
+            robot.LB.setPower(-.65);
+            robot.RF.setPower(-.65);
+            robot.RB.setPower(.65);
         }
         else if (gamepad1.dpad_left) {
-            robot.LF.setPower(-.4);
-            robot.LB.setPower(.4);
-            robot.RF.setPower(.4);
-            robot.RB.setPower(-.4);
+            robot.LF.setPower(-.65);
+            robot.LB.setPower(.65);
+            robot.RF.setPower(.65);
+            robot.RB.setPower(-.65);
         }
         else{
         robot.LF.setPower(frontLeftPower);
@@ -180,6 +180,7 @@ public class BasicOpMode_Iterative extends OpMode {
         } else if (gamepad1.left_trigger>0.02) {
             robot.setVerticalLinear(1, Constants.verticalSlideBasket);
             robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
+            clawOn = false;
         }
         else if (gamepad1.right_stick_button) {
             robot.setVerticalLinear(1, Constants.verticalSlidePickup);
