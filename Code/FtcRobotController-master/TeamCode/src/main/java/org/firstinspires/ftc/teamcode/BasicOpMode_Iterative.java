@@ -120,6 +120,12 @@ public class BasicOpMode_Iterative extends OpMode {
     @Override
     public void loop() {
         if (LoopDone) {
+            robot.leftLiftMotor.setPower(.2);
+            robot.rightLiftMotor.setPower(-.2);
+            robot.LF.setPower(0);
+            robot.LB.setPower(0);
+            robot.RF.setPower(0);
+            robot.RB.setPower(0);
             return;
         }
         double y = -gamepad1.left_stick_y; // Forward/backward
@@ -258,24 +264,23 @@ public class BasicOpMode_Iterative extends OpMode {
                 robot.setLeftHangServo(Constants.hangLeftOpen);
 
                 // Wait 1 sec
-                ElapsedTime time = new ElapsedTime();
-                time.reset();
-                while (time.milliseconds() < 60) {
-                }
-                robot.leftLiftMotor.setPower(0);
-
+//                ElapsedTime time = new ElapsedTime();
+//                time.reset();
+//                while (time.milliseconds() < 60) {
+//                }
+                robot.leftLiftMotor.setPower(.2);
                 LHDone = true;
             }
             if ((newCountR == pastCountR) && (RHDone == false) && (newCountR < 800)) {
                 // set servo
                 robot.setRightHangServo(Constants.hangRightOpen);
 
-                ElapsedTime time2 = new ElapsedTime();
-                time2.reset();
+//                ElapsedTime time2 = new ElapsedTime();
+//                time2.reset();
                 // Wait 1 sec
-                while (time2.milliseconds() < 60) {
-                }
-                robot.rightLiftMotor.setPower(0);
+//                while (time2.milliseconds() < 60) {
+//                }
+                robot.rightLiftMotor.setPower(-.2);
                 RHDone = true;
             }
 
@@ -293,14 +298,14 @@ public class BasicOpMode_Iterative extends OpMode {
 
         double power = -gamepad2.left_stick_y;
         if (power > 0.05) {
-            double move = robot.getClawArmPosition()+0.01;
+            double move = robot.getClawArmPosition()+0.02;
             if (move > Constants.clawArmUp) {
                 move = Constants.clawArmUp;
             }
             robot.setClawArmServo(move);
         }
         else if (power < -0.05) {
-            double move = robot.getClawArmPosition()-0.01;
+            double move = robot.getClawArmPosition()-0.02;
             if (move < Constants.clawArmDown) {
                 move = Constants.clawArmDown;
             }
