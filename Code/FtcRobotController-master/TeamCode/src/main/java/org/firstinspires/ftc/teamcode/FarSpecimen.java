@@ -316,7 +316,7 @@ public class FarSpecimen extends LinearOpMode {
         turnToHeading(1, -90);
         robot.setVerticalLinear(1.0, -710);
 //        robot.hang(1, -700,
-        driveLeftPIDLim(.8,40, -90, 60, 1, 600);
+        driveLeftPIDLim(.4,40, -90, 60, 1, 800);
         timer(600);
         robot.setBackClawServo(Constants.backClawClose);
         timer(600);
@@ -346,7 +346,7 @@ public class FarSpecimen extends LinearOpMode {
         robot.setVerticalLinear(1.0, 0);
         robot.setBackClawServo(Constants.backClawClose);
         robot.setClawArmServo(Constants.clawArmMiddleHigh);
-        robot.setBasketServo(Constants.basketOpen);
+        robot.setBasketServo(Constants.basketClosed);
 
         // High Basket Drop
 //        driveForwardPID(1.0,45, 0,60,1);

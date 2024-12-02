@@ -10,10 +10,11 @@ public class Constants {
 
     /* -------------------------------------------- SERVO CONSTANTS -------------------------------------------- */
     //TODO TUNE
-    public static double clawClose = 0.67;
-    public static double clawOpen = 0.47;
+    public static double clawClose = 0.51;
+    public static double clawOpen = 0.39;
 
     public static double backClawClose = 0.69; //68
+
     public static double backClawOpen = 0.55;
 
     public static double clawArmDown = 0.02;// 0.03;
@@ -46,9 +47,9 @@ public class Constants {
 
     public static int hangLeftLow = 0;
     public static int hangLeftPickup = -700;
-    public static int hangLeftHigh = -3100;
+    public static int hangLeftHigh = -4300;
 
     public static int hangRightLow = 0;
     public static int hangRightPickup = 700;
-    public static int hangRightHigh = 3100;
+    public static int hangRightHigh = 4300;
 }
