@@ -300,7 +300,7 @@ public class CloseSample extends LinearOpMode {
         robot.setBasketServo(Constants.basketOpen);
         turnToHeading(.8, -45);
 
-        timer(10);
+        timer(500);
 
         turnToHeading(.8, 0);
 
@@ -311,7 +311,7 @@ public class CloseSample extends LinearOpMode {
         robot.setBasketServo(Constants.basketClosed);
         robot.setClawArmServo(Constants.clawArmDown);
         robot.setClawServo(Constants.clawOpen);
-        robot.setHorizontalLinear(-1000);
+        robot.setHorizontalLinear(-960);
 
         driveForwardPID(1.0, 8, 0, 60, 0.3);
 
@@ -329,7 +329,7 @@ public class CloseSample extends LinearOpMode {
         // Score
         robot.setBasketServo(Constants.basketOpen);
         turnToHeading(.8, -45);
-        timer(10);
+        timer(500);
         turnToHeading(.8, 0);
 
         //Pickup 2
@@ -338,7 +338,7 @@ public class CloseSample extends LinearOpMode {
         robot.setBasketServo(Constants.basketClosed);
         robot.setClawArmServo(Constants.clawArmDown);
         robot.setClawServo(Constants.clawOpen);
-        robot.setHorizontalLinear(-1000);
+        robot.setHorizontalLinear(-960);
 
         driveForwardPID(1.0, 3, 0, 60, 0.3);
 
@@ -356,11 +356,11 @@ public class CloseSample extends LinearOpMode {
         // Score
         robot.setBasketServo(Constants.basketOpen);
         turnToHeading(.8, -45);
-        timer(10);
+        timer(500);
         turnToHeading(.8, 0);
         robot.setVerticalLinear(1.0, 0);
-        driveRightPID(1.0, 224, 0, 60, 1);
-        driveReversePID(1.0, 22, 0, 60, 1);
+        driveRightPID(1.0, 230, 0, 60, 1);
+        driveReversePID(1.0, 23, 0, 60, 1);
         robot.setClawArmServo(Constants.clawArmMiddleHigh);
         robot.setBasketServo(Constants.basketClosed);
 
