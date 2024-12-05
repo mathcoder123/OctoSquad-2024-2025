@@ -193,8 +193,8 @@ public class BasicOpMode_Iterative extends OpMode {
             robot.hang(1, Constants.hangLeftPickup, Constants.hangRightPickup);
         }
         else if (gamepad1.left_stick_button) {
-            robot.setVerticalLinear(1, Constants.verticalSlidePickupHigh);
-            robot.hang(1, Constants.hangLeftPickup, Constants.hangRightPickup);
+//            robot.setVerticalLinear(1, Constants.verticalSlidePickupHigh);
+//            robot.hang(1, Constants.hangLeftPickup, Constants.hangRightPickup);
         }
 
         // Basket Servo
@@ -217,7 +217,7 @@ public class BasicOpMode_Iterative extends OpMode {
         newCountL = robot.getLeftLiftMotorPosition();
         newCountR = robot.getRightLiftMotorPosition();
 
-        if (gamepad1.a) {
+        if (gamepad1.a && gamepad1.left_stick_button) {
             clawOn = true;
             robot.setBackClawServo(0.47);
             robot.leftLiftMotor.setPower(0);
@@ -247,7 +247,7 @@ public class BasicOpMode_Iterative extends OpMode {
 //            robot.setRightHangServo(Constants.hangRightClosed);
 //        }
 
-        if (gamepad1.b) {
+        if (gamepad1.b && gamepad1.left_stick_button) {
             hangOn = true;
             LHDone = false;
             RHDone = false;
