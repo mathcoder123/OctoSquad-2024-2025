@@ -311,7 +311,9 @@ public class CloseSample extends LinearOpMode {
         robot.setBasketServo(Constants.basketClosed);
         robot.setClawArmServo(Constants.clawArmDown);
         robot.setClawServo(Constants.clawOpen);
-        robot.setHorizontalLinear(-960);
+        robot.setHorizontalLinear(-1000);
+
+        timer(120);
 
         driveForwardPID(1.0, 8, 0, 60, 0.3);
 
@@ -338,17 +340,18 @@ public class CloseSample extends LinearOpMode {
         robot.setBasketServo(Constants.basketClosed);
         robot.setClawArmServo(Constants.clawArmDown);
         robot.setClawServo(Constants.clawOpen);
-        robot.setHorizontalLinear(-960);
+        robot.setHorizontalLinear(-980);
+        timer(120);
 
         driveForwardPID(1.0, 3, 0, 60, 0.3);
 
         robot.setClawServo(Constants.clawClose);
-        timer(280);
+        timer(350);
         robot.setHorizontalLinear(0);
         robot.setClawArmServo(Constants.clawArmUp);
         driveReversePID(1.0, 3, 0, 60, 1);
         robot.setClawServo(Constants.clawOpen);
-        timer(220);
+        timer(350);
         robot.setVerticalLinear(1.0, -3085);
         driveLeftPID(1.0, 36, 0, 60, 1);
 
@@ -363,6 +366,121 @@ public class CloseSample extends LinearOpMode {
         driveReversePID(1.0, 23, 0, 60, 1);
         robot.setClawArmServo(Constants.clawArmMiddleHigh);
         robot.setBasketServo(Constants.basketClosed);
+
+        /*
+        //Score Preload
+
+        driveForwardPID(1.0, 11.5, 0, 60, 0.3);
+        robot.setBackClawServo(Constants.backClawClose);
+        robot.setClawArmServo(Constants.clawArmMiddleHigh);
+        robot.setBasketServo(Constants.basketClosed);
+        robot.setVerticalLinear(1.0, -3085);
+        driveLeftPID(1.0, 70, 0, 60, 0.3); //70
+        robot.setBasketServo(Constants.basketOpen);
+        turnToHeading(.8, -45);
+
+        timer(200);
+
+        turnToHeading(.8, 0);
+
+        // Pickup
+
+        driveRightPID(1.0, 12.5, 0, 60, 1);
+        robot.setVerticalLinear(1.0, 0);
+        robot.setBasketServo(Constants.basketClosed);
+        robot.setClawArmServo(Constants.clawArmDown);
+        robot.setClawServo(Constants.clawOpen);
+        robot.setHorizontalLinear(-960);
+
+        driveForwardPID(1.0, 8, 0, 60, 0.3);
+
+        robot.setClawServo(Constants.clawClose);
+        timer(125);
+        robot.setHorizontalLinear(0);
+        robot.setClawArmServo(Constants.clawArmUp);
+        driveReversePID(1.0, 8.0, 0, 60, 1);
+        robot.setClawServo(Constants.clawOpen);
+//        timer(30);
+        robot.setVerticalLinear(1.0, -3085);
+        driveLeftPID(1.0, 12.5, 0, 60, 1);
+
+
+        // Score
+        robot.setBasketServo(Constants.basketOpen);
+        turnToHeading(.8, -45);
+        timer(250);
+        turnToHeading(.8, 0);
+
+        //Pickup 2
+        driveRightPID(1.0, 36, 0, 60, 1);
+        robot.setVerticalLinear(1.0, 0);
+        robot.setBasketServo(Constants.basketClosed);
+        robot.setClawArmServo(Constants.clawArmDown);
+        robot.setClawServo(Constants.clawOpen);
+        robot.setHorizontalLinear(-960);
+
+        driveForwardPID(1.0, 3, 0, 60, 0.3);
+
+        robot.setClawServo(Constants.clawClose);
+        timer(125);
+        robot.setHorizontalLinear(0);
+        robot.setClawArmServo(Constants.clawArmUp);
+        driveReversePID(1.0, 3, 0, 60, 1);
+        robot.setClawServo(Constants.clawOpen);
+//        timer(30);
+        robot.setVerticalLinear(1.0, -3085);
+        driveLeftPID(1.0, 36, 0, 60, 1);
+
+
+        // Score
+        robot.setBasketServo(Constants.basketOpen);
+        turnToHeading(.8, -45);
+        timer(200);
+        turnToHeading(.8, 0);
+        robot.setVerticalLinear(1.0, 0);
+        driveRightPID(1.0, 5, 0, 60, 1);
+        driveForwardPID(1.0, 103, 0, 60, 1);
+
+        driveLeftPIDLim(1.0, 12, 0, 60, 1, 66);
+        driveReversePID(1.0, 95, 0, 60, 2);
+
+
+        // pickup 3
+        /*
+
+
+//        robot.setClawArmServo(Constants.clawArmMiddleHigh);
+        robot.setVerticalLinear(1.0, 0);
+        robot.setBasketServo(Constants.basketClosed);
+        robot.setClawArmServo(Constants.clawArmDown);
+        robot.setClawServo(Constants.clawOpen);
+        robot.setHorizontalLinear(-900);
+
+        driveForwardPID(1.0, 11, 0, 60, 1);
+
+        turnToHeading(.8, 13);
+
+        robot.setClawServo(Constants.clawClose);
+        timer(110);
+        robot.setHorizontalLinear(0);
+        robot.setClawArmServo(Constants.clawArmUp);
+        turnToHeading(.8, 0);
+        driveReversePID(1.0, 11, 0, 60, 1);
+        robot.setClawServo(Constants.clawOpen);
+        robot.setVerticalLinear(1.0, -3085);
+//        driveLeftPID(1.0, 12.5, 0, 60, 1);
+
+
+        // Score
+        robot.setBasketServo(Constants.basketOpen);
+        turnToHeading(.8, -45);
+        timer(200);
+        turnToHeading(.8, 0);*/
+
+//        driveRightPID(1.0, 230, 0, 60, 1);
+//        driveReversePID(1.0, 23, 0, 60, 1);
+//        robot.setClawArmServo(Constants.clawArmMiddleHigh);
+//        robot.setBasketServo(Constants.basketClosed);*/
 
 /*
         // pickup 3

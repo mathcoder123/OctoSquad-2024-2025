@@ -206,6 +206,7 @@ public class BasicOpMode_Iterative extends OpMode {
         }
 
         if (gamepad1.x) {
+            clawOn = false;
             robot.setBackClawServo(Constants.backClawOpen);
         }
         else if (!clawOn){
