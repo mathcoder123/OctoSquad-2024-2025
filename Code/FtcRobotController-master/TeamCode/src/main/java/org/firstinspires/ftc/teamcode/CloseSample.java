@@ -358,7 +358,7 @@ public class CloseSample extends LinearOpMode {
 
         // Score
         robot.setBasketServo(Constants.basketOpen);
-        turnToHeading(.8, -45);
+        turnToHeading(.8, -45); 
         timer(500);
         turnToHeading(.8, 0);
         robot.setVerticalLinear(1.0, 0);
