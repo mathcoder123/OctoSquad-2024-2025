@@ -290,43 +290,49 @@ public class FarSpecimen extends LinearOpMode {
         //////////TODO TODO TODO TODO TODO TODO TODO TODO TODO //////////////////////////////////
 
         // Specimen hang
+        robot.setBackClawServo(Constants.backClawClose);
         robot.setVerticalLinear(1.0,-1960);
         robot.setClawArmServo(Constants.clawArmMiddleHigh);
-        driveReversePID(1.0, 67, 0, 60, 0.6);
+        robot.setClawServo(Constants.clawClose);
+        driveReversePID(1.0, 71, 0, 60, 4);
 
         robot.setBackClawServo(Constants.backClawClose);
 //        driveRightPID(1.0, 28, 0, 60, 0.6);
 //        robot.setVerticalLinear(1.0,-1960);
 //        driveRightPID(1.0, 30, 0, 60, 0.6);
 //        driveReversePID(1.0,44, 0,60,0.6);
-        driveReversePIDLim(0.2,1000, 0,60,0.6, 70); // 1 second = 66.666
+        driveReversePIDLim(0.2,1000, 0,60,2, 70); // 1 second = 66.666
         robot.setVerticalLinear(1.0, -1632);
         timer(300);
         robot.setBackClawServo(Constants.backClawOpen);
 
 //        turnToHeading(1, 20);
 
-        timer(1000);
+        timer(800);
 
         driveForwardPID(1.0,60, 0, 60, 2);
         robot.setVerticalLinear(1.0, 0);
-        driveLeftPID(1.0, 100, 0, 60, 1); //100 for edge
+        driveLeftPID(1.0, 100, 0, 60, 2); //100 for edge
         robot.setBasketServo(Constants.basketClosed);
         robot.setClawArmServo(0.55);
-        turnToHeading(1, -90);
+        turnToHeadingLim(1, -90, 60);
         robot.setVerticalLinear(1.0, -710);
 //        robot.hang(1, -700,
-        driveLeftPIDLim(.4,40, -90, 60, 1, 800);
-        timer(600);
+        driveLeftPIDLim(.4,40, -90, 60, 2, 180);
+        timer(500);
         robot.setBackClawServo(Constants.backClawClose);
-        timer(600);
+        timer(500);
         robot.setVerticalLinear(1.0, -950);
-        timer(600);
-        turnToHeading(1, 0);
-        driveRightPID(1.0,150, 0, 60, 2);
+        timer(400);
+        robot.setClawArmServo(Constants.clawArmMiddleHigh+0.05);
+        turnToHeadingLim(1, 0, 60);
+        driveReversePID(1.0, 5, 0, 60, 2);
+        driveRightPID(1.0,140, 0, 60, 2);
+
+        robot.setClawArmServo(Constants.clawArmMiddleHigh);
 
         robot.setVerticalLinear(1.0,-1960);
-        driveReversePID(1.0, 60, 0, 60, 0.6);
+        driveReversePID(1.0, 60, 0, 60, 4);
 
         robot.setBackClawServo(Constants.backClawClose);
         robot.setClawArmServo(Constants.clawArmMiddleHigh);
@@ -334,14 +340,39 @@ public class FarSpecimen extends LinearOpMode {
 //        robot.setVerticalLinear(1.0,-1960);
 //        driveRightPID(1.0, 30, 0, 60, 0.6);
 //        driveReversePID(1.0,44, 0,60,0.6);
-        driveReversePIDLim(0.2,1000, 0,60,0.6, 70); // 1 second = 66.666
+        driveReversePIDLim(0.2,1000, 0,60,3, 70); // 1 second = 66.666
         robot.setVerticalLinear(1.0, -1632);
         timer(300);
         robot.setBackClawServo(Constants.backClawOpen);
 
-        driveForwardPID(1.0,72, 0, 60, 2);
+        driveForwardPID(1.0,20, 0, 60, 3); //72
 
-        driveLeftPID(1.0, 153, 0, 60, 1);
+        robot.setVerticalLinear(1.0, 0);
+
+        driveLeftPID(1.0, 75, 0, 60, 3); //153
+
+        driveReversePID(1.0,70, 0, 60, 3); //72
+
+        driveLeftPID(1.0, 35, 0, 60, 3); //153
+
+        driveForwardPID(1.0,110, 0, 60, 3);
+
+        driveReversePID(1.0,110, 0, 60, 3);
+
+        driveLeftPID(1.0, 30, 0, 60, 3); //153
+
+        driveForwardPID(1.0,110, 0, 60, 3);
+
+        driveReversePID(1.0,111, 0, 60, 3);
+
+        driveLeftPIDLim(1.0, 21.5, 0, 60, 3, 60);
+
+        driveForwardPID(1.0,125, 0, 60, 3);
+
+
+//        driveLeftPIDLim(1.0, 20, 0, 60, 1, 100); //153
+
+//        driveForwardPID(1.0,13, 0, 60, 2); //72
 
         robot.setVerticalLinear(1.0, 0);
         robot.setBackClawServo(Constants.backClawClose);
@@ -1000,6 +1031,35 @@ public class FarSpecimen extends LinearOpMode {
 
         // Stop all motion;
         moveRobot(0, 0,0);
+    }
+
+    public void turnToHeadingLim(double maxTurnSpeed, double heading, double limit) {
+        int counter = 0;
+        // Run getSteeringCorrection() once to pre-calculate the current error
+        odo.update();
+        getSteeringCorrection(heading, P_DRIVE_GAIN);
+
+        // keep looping while we are still active, and not on heading.
+        while (opModeIsActive() && (Math.abs(headingError) > HEADING_THRESHOLD)) {
+            counter ++;
+            if (counter <= limit) {
+            odo.update();
+
+            // Determine required steering to keep on heading
+            turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
+            // Clip the speed to the maximum permitted value.
+            turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);
+            // Pivot in place by applying the turning correction
+            moveRobot( 0, turnSpeed, 0);
+            // Display drive status for the driver.
+            sendTelemetry(false);}
+            else{
+
+                // Stop all motion;
+                moveRobot(0, 0,0);
+                return;}
+        }
+
     }
 
     /**

@@ -19,12 +19,12 @@ public class Attachments{
     private Telemetry telemetry;
     private ElapsedTime runtime = new ElapsedTime();
 
-    public Servo clawServo, clawArmServo, basketServo, leftHangServo, rightHangServo, backClawServo;
+    public Servo clawServo, clawArmServo, basketServo, intakeL, intakeR, backClawServo;
     public DcMotorEx leftLiftMotor, rightLiftMotor, horizontalLinear, verticalLinear, LF, LB, RF, RB;
     // public WebcamName webcam;
     // public VisionPortal visionPortal;
 
-    public void initialize(HardwareMap hardwareMap){//, Telemetry telemetry_) {
+    public void initialize(HardwareMap hardwareMap){//, boolean zeroOut){//, Telemetry telemetry_) {
 //        telemetry = telemetry_;
         //FtcDashboard dashboard = FtcDashboard.getInstance();
 
@@ -47,9 +47,11 @@ public class Attachments{
         RB = hardwareMap.get(DcMotorEx.class, "RB"); //
 
 //        RF.setDirection(DcMotorEx.Direction.REVERSE);  // Motor facing forward
+
         RF.setDirection(DcMotorEx.Direction.REVERSE);
         LB.setDirection(DcMotorEx.Direction.REVERSE);
       //leftLiftMotor.setDirection(DcMotorEx.Direction.REVERSE);
+
 
         leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -65,8 +67,66 @@ public class Attachments{
         // Servos
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         basketServo = hardwareMap.get(Servo.class, "basketServo");
-        leftHangServo = hardwareMap.get(Servo.class, "leftHangServo");
-        rightHangServo = hardwareMap.get(Servo.class, "rightHangServo");
+        intakeR = hardwareMap.get(Servo.class, "leftHangServo"); //change?
+        intakeL = hardwareMap.get(Servo.class, "rightHangServo"); //change?
+        backClawServo = hardwareMap.get(Servo.class, "backClawServo");
+        clawArmServo = hardwareMap.get(Servo.class, "clawArmServo");
+
+/*//        telemetry.addLine("Servos Initialized");
+//        telemetry.update();
+
+
+        // Camera
+        //webcam = hardwareMap.get(WebcamName.class, webcam);
+
+//        telemetry.addLine("Camera Initialized");
+//        telemetry.update();
+
+        // Change Drive Motor Modes if not autonomous
+//        if (!auto) {
+////            setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+////            setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+////            setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        } else {
+////            visionProcessor = new VisionProcessor();
+////            visionPortal = VisionPortal.easyCreateWithDefaults(webcam, visionProcessor);
+//        }
+//*/
+    }
+
+    public void initialize2(HardwareMap hardwareMap){//, boolean zeroOut){//, Telemetry telemetry_) {
+//        telemetry = telemetry_;
+        //FtcDashboard dashboard = FtcDashboard.getInstance();
+
+
+        // Initialize Roadrunner
+        //initializeRoadrunner(hardwareMap);
+
+//        telemetry.addLine("Roadrunner Initialized");
+//        telemetry.update();
+
+        // Motors
+        leftLiftMotor = hardwareMap.get(DcMotorEx.class, "leftLiftMotor"); //
+        rightLiftMotor = hardwareMap.get(DcMotorEx.class, "rightLiftMotor"); //
+        horizontalLinear = hardwareMap.get(DcMotorEx.class, "horizontalLinear"); //
+        verticalLinear = hardwareMap.get(DcMotorEx.class, "verticalLinear"); //
+
+        LF = hardwareMap.get(DcMotorEx.class, "LF"); //
+        LB = hardwareMap.get(DcMotorEx.class, "LB"); //
+        RF = hardwareMap.get(DcMotorEx.class, "RF"); //
+        RB = hardwareMap.get(DcMotorEx.class, "RB"); //
+
+//        RF.setDirection(DcMotorEx.Direction.REVERSE);  // Motor facing forward
+
+        RF.setDirection(DcMotorEx.Direction.REVERSE);
+        LB.setDirection(DcMotorEx.Direction.REVERSE);
+        //leftLiftMotor.setDirection(DcMotorEx.Direction.REVERSE);
+
+        // Servos
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
+        basketServo = hardwareMap.get(Servo.class, "basketServo");
+        intakeR = hardwareMap.get(Servo.class, "leftHangServo"); //change?
+        intakeL = hardwareMap.get(Servo.class, "rightHangServo"); //change?
         backClawServo = hardwareMap.get(Servo.class, "backClawServo");
         clawArmServo = hardwareMap.get(Servo.class, "clawArmServo");
 
@@ -126,8 +186,8 @@ public class Attachments{
     public void setClawServo (double position) {clawServo.setPosition(position);}
     public void setClawArmServo (double position) {clawArmServo.setPosition(position);}
     public void setBasketServo  (double position) {basketServo.setPosition(position);}
-    public void setLeftHangServo  (double position) {leftHangServo.setPosition(position);}
-    public void setRightHangServo  (double position) {rightHangServo.setPosition(position);}
+//    public void setLeftHangServo  (double position) {leftHangServo.setPosition(position);}
+//    public void setRightHangServo  (double position) {rightHangServo.setPosition(position);}
     public void setBackClawServo  (double position) {backClawServo.setPosition(position);}
 
 
@@ -152,12 +212,12 @@ public class Attachments{
     public double getClawArmPosition() {
         return clawArmServo.getPosition();
     }
-    public double getLeftHangServoPosition() {
-        return leftHangServo.getPosition();
-    }
-    public double getRightHangServoPosition() {
-        return rightHangServo.getPosition();
-    }
+//    public double getLeftHangServoPosition() {
+//        return leftHangServo.getPosition();
+//    }
+//    public double getRightHangServoPosition() {
+//        return rightHangServo.getPosition();
+//    }
     public double getBackClawServoPosition() {
         return backClawServo.getPosition();
     }

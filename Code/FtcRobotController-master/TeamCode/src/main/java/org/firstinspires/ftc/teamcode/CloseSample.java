@@ -291,7 +291,7 @@ public class CloseSample extends LinearOpMode {
 
         //Score Preload
 
-        driveForwardPID(1.0, 11.5, 0, 60, 0.3);
+        /*driveForwardPID(1.0, 11.5, 0, 60, 0.3);
         robot.setBackClawServo(Constants.backClawClose);
         robot.setClawArmServo(Constants.clawArmMiddleHigh);
         robot.setBasketServo(Constants.basketClosed);
@@ -311,14 +311,14 @@ public class CloseSample extends LinearOpMode {
         robot.setBasketServo(Constants.basketClosed);
         robot.setClawArmServo(Constants.clawArmDown);
         robot.setClawServo(Constants.clawOpen);
-        robot.setHorizontalLinear(-1000);
+        robot.setHorizontalLinear(-988);
 
         timer(120);
 
         driveForwardPID(1.0, 8, 0, 60, 0.3);
 
         robot.setClawServo(Constants.clawClose);
-        timer(280);
+        timer(500);
         robot.setHorizontalLinear(0);
         robot.setClawArmServo(Constants.clawArmUp);
         driveReversePID(1.0, 8.0, 0, 60, 1);
@@ -340,13 +340,13 @@ public class CloseSample extends LinearOpMode {
         robot.setBasketServo(Constants.basketClosed);
         robot.setClawArmServo(Constants.clawArmDown);
         robot.setClawServo(Constants.clawOpen);
-        robot.setHorizontalLinear(-980);
+        robot.setHorizontalLinear(-988);
         timer(120);
 
         driveForwardPID(1.0, 3, 0, 60, 0.3);
 
         robot.setClawServo(Constants.clawClose);
-        timer(350);
+        timer(500);
         robot.setHorizontalLinear(0);
         robot.setClawArmServo(Constants.clawArmUp);
         driveReversePID(1.0, 3, 0, 60, 1);
@@ -362,87 +362,207 @@ public class CloseSample extends LinearOpMode {
         timer(500);
         turnToHeading(.8, 0);
         robot.setVerticalLinear(1.0, 0);
+        timer(1000);
         driveRightPID(1.0, 230, 0, 60, 1);
         driveReversePID(1.0, 23, 0, 60, 1);
         robot.setClawArmServo(Constants.clawArmMiddleHigh);
-        robot.setBasketServo(Constants.basketClosed);
+        robot.setBasketServo(Constants.basketClosed);*/
 
-        /*
+
         //Score Preload
 
+
+        robot.setBackClawServo(Constants.backClawClose);
+        robot.setClawArmServo(Constants.clawArmMiddleHigh);
+        robot.intakeL.setPosition(1);
+        robot.intakeR.setPosition(-1);
         driveForwardPID(1.0, 11.5, 0, 60, 0.3);
         robot.setBackClawServo(Constants.backClawClose);
         robot.setClawArmServo(Constants.clawArmMiddleHigh);
         robot.setBasketServo(Constants.basketClosed);
         robot.setVerticalLinear(1.0, -3085);
-        driveLeftPID(1.0, 70, 0, 60, 0.3); //70
+        driveLeftPID(1.0, 70, 0, 60, 1); //70
         robot.setBasketServo(Constants.basketOpen);
         turnToHeading(.8, -45);
-
-        timer(200);
-
+        timer(100);
         turnToHeading(.8, 0);
 
         // Pickup
 
-        driveRightPID(1.0, 12.5, 0, 60, 1);
+        robot.intakeL.setPosition(1);
+        robot.intakeR.setPosition(-1);
+        robot.setClawArmServo(Constants.clawArmDown);
+        robot.setClawServo(Constants.clawOpen-0.02);
+        robot.setHorizontalLinear(-960);
+        driveRightPID(1.0, 12, 0, 60, 1);
         robot.setVerticalLinear(1.0, 0);
         robot.setBasketServo(Constants.basketClosed);
-        robot.setClawArmServo(Constants.clawArmDown);
-        robot.setClawServo(Constants.clawOpen);
-        robot.setHorizontalLinear(-960);
-
-        driveForwardPID(1.0, 8, 0, 60, 0.3);
-
+        driveForwardPID(1.0, 18, 0, 60, 1);
         robot.setClawServo(Constants.clawClose);
-        timer(125);
+        timer(100);
         robot.setHorizontalLinear(0);
         robot.setClawArmServo(Constants.clawArmUp);
-        driveReversePID(1.0, 8.0, 0, 60, 1);
-        robot.setClawServo(Constants.clawOpen);
-//        timer(30);
+        driveReversePID(1.0, 17.0, 0, 60, 1);
+        robot.setClawServo(Constants.clawOpenBig);
+        robot.intakeL.setPosition(-1);
+        robot.intakeR.setPosition(1);
+        timer(100);
+//        driveLeftPID(1.0, 2, 0, 60, 1);
+        robot.setClawArmServo(Constants.clawArmMiddleHigh);
+        robot.setBasketServo(Constants.basketClosed);
         robot.setVerticalLinear(1.0, -3085);
         driveLeftPID(1.0, 12.5, 0, 60, 1);
+        timer(250);
 
 
         // Score
         robot.setBasketServo(Constants.basketOpen);
         turnToHeading(.8, -45);
-        timer(250);
+        timer(100);
         turnToHeading(.8, 0);
 
         //Pickup 2
-        driveRightPID(1.0, 36, 0, 60, 1);
+        robot.intakeL.setPosition(1);
+        robot.intakeR.setPosition(-1);
+        robot.setClawArmServo(Constants.clawArmDown);
+        robot.setClawServo(Constants.clawOpen-0.02);
+        robot.setHorizontalLinear(-930);
+        driveRightPID(1.0, 35, 0, 60, 1);
         robot.setVerticalLinear(1.0, 0);
         robot.setBasketServo(Constants.basketClosed);
-        robot.setClawArmServo(Constants.clawArmDown);
-        robot.setClawServo(Constants.clawOpen);
-        robot.setHorizontalLinear(-960);
-
-        driveForwardPID(1.0, 3, 0, 60, 0.3);
-
+        driveForwardPID(1.0, 18, 0, 60, 1);
         robot.setClawServo(Constants.clawClose);
-        timer(125);
+        timer(100);
         robot.setHorizontalLinear(0);
         robot.setClawArmServo(Constants.clawArmUp);
-        driveReversePID(1.0, 3, 0, 60, 1);
-        robot.setClawServo(Constants.clawOpen);
-//        timer(30);
+        driveReversePID(1.0, 18.0, 0, 60, 1);
+        robot.setClawServo(Constants.clawOpenBig);
+        robot.intakeL.setPosition(-1);
+        robot.intakeR.setPosition(1);
+        timer(100);
+//        driveLeftPID(1.0, 3, 0, 60, 1);
+        robot.setClawArmServo(Constants.clawArmMiddleHigh);
+        robot.setBasketServo(Constants.basketClosed);
         robot.setVerticalLinear(1.0, -3085);
-        driveLeftPID(1.0, 36, 0, 60, 1);
+        driveLeftPID(1.0, 35.5, 0, 60, 1);
+        timer(250);
 
 
         // Score
         robot.setBasketServo(Constants.basketOpen);
         turnToHeading(.8, -45);
-        timer(200);
-        turnToHeading(.8, 0);
-        robot.setVerticalLinear(1.0, 0);
-        driveRightPID(1.0, 5, 0, 60, 1);
-        driveForwardPID(1.0, 103, 0, 60, 1);
+        timer(100);
+       // turnToHeading(.8, 0); Commented out for new thing
 
-        driveLeftPIDLim(1.0, 12, 0, 60, 1, 66);
-        driveReversePID(1.0, 95, 0, 60, 2);
+
+
+        //////////////////////////////////////////////////////////////////
+        turnToHeading(.8, 0);
+        driveForwardPID(1.0, 19, 0, 60, 1.5);
+        robot.setBasketServo(Constants.basketClosed);
+
+        robot.intakeL.setPosition(1);
+        robot.intakeR.setPosition(-1);
+        robot.setClawArmServo(Constants.clawArmDown);
+        robot.setClawServo(Constants.clawOpen-0.04);
+        robot.setHorizontalLinear(-700);
+
+        turnToHeading(.8, 15);
+        robot.setVerticalLinear(1.0, 0);
+
+        robot.setHorizontalLinear(-950);
+        timer(1300);
+
+//        driveForwardPID(1.0, 4, 0, 60, 1);
+        robot.setClawServo(Constants.clawClose);
+        timer(250);
+        robot.setHorizontalLinear(0);
+        robot.setClawArmServo(Constants.clawArmUp);
+//        timer(100);
+        driveReversePID(1.0, 20, 0, 60, 2);
+        robot.setClawServo(Constants.clawOpen-0.02);
+        timer(150);
+        robot.intakeL.setPosition(-1);
+        robot.intakeR.setPosition(1);
+        turnToHeading(1, 0);
+
+//        driveLeftPID(1.0, 3, 0, 60, 1);
+        robot.setClawArmServo(Constants.clawArmMiddleHigh);
+//        robot.setBasketServo(Constants.basketClosed);
+        robot.setVerticalLinear(1.0, -3085);
+//        driveLeftPID(1.0, 35.5, 0, 60, 1);
+        timer(1500);
+
+        robot.setBasketServo(Constants.basketOpen);
+        turnToHeading(.8, -40);
+        timer(100);
+        turnToHeading(1, 0);
+        robot.setVerticalLinear(1.0, 0);
+        robot.setClawArmServo(Constants.clawArmMiddleHigh);
+        robot.setClawServo(Constants.clawClose);
+        driveRightPID(1.0, 245, 0, 60, 3);
+        driveReversePID(1.0, 25, 0, 60, 3);
+
+
+        robot.intakeL.setPosition(0.5);
+        robot.intakeR.setPosition(0.5);
+        robot.setHorizontalLinear(0);
+//        robot.leftLiftMotor.setPower(1);
+//        robot.leftLiftMotor.setTargetPosition(-2520);
+//        robot.leftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.rightLiftMotor.setPower(1);
+//        robot.rightLiftMotor.setTargetPosition(2520);
+//        robot.rightLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.setBasketServo(Constants.basketClosed);
+//        driveForwardPID(1.0, 130, 0, 60, 1);
+//        robot.setBackClawServo(0.46);
+//        robot.setClawArmServo(Constants.clawArmMiddle);
+//        turnToHeading(1, 90);
+
+
+//        robot.LF.setPower(-0.6);
+//        robot.LB.setPower(-0.6);
+//        robot.RF.setPower(-0.6);
+//        robot.RB.setPower(-0.6);
+//
+//        timer(1000);
+//        robot.LF.setPower(0);
+//        robot.LB.setPower(0);
+//        robot.RF.setPower(0);
+//        robot.RB.setPower(0);
+//        timer(100);
+//
+//        robot.LF.setPower(-0.1);
+//        robot.LB.setPower(-0.1);
+//        robot.RF.setPower(-0.1);
+//        robot.RB.setPower(-0.1);
+
+
+
+//        robot.setClawServo(Constants.clawClose);
+//        turnToHeading(1, 0);
+//        robot.setHorizontalLinear(0);
+//        robot.setClawArmServo(Constants.clawArmUp);
+//        driveReversePID(1.0, 20.0, 0, 60, 1);
+//        robot.setClawServo(Constants.clawOpen);
+//        robot.intakeL.setPosition(-1);
+//        robot.intakeR.setPosition(1);
+//
+//        driveReversePID(1.0, 40.0, 0, 60, 1);
+//        robot.setVerticalLinear(1.0, -3085);
+//        driveLeftPID(1.0, 3, 0, 60, 1);
+//        robot.setClawArmServo(Constants.clawArmMiddleHigh);
+//        robot.setBasketServo(Constants.basketClosed);
+//        driveLeftPID(1.0, 40, 0, 60, 1);
+//
+//        robot.setBasketServo(Constants.basketOpen);
+//        turnToHeading(.8, -45);
+//        timer(100);
+//        turnToHeading(.8, 0);
+//        driveRightPID(1.0, 15.0, 0, 60, 1);
+//
+//        robot.setVerticalLinear(1.0, 0);
 
 
         // pickup 3
@@ -1038,7 +1158,7 @@ public class CloseSample extends LinearOpMode {
         getSteeringCorrection(heading, P_DRIVE_GAIN);
 
         // keep looping while we are still active, and not on heading.
-        while (opModeIsActive() && (Math.abs(headingError) > HEADING_THRESHOLD)) {
+        while (opModeIsActive() && (Math.abs(headingError) > 4)) {
             odo.update();
 
             // Determine required steering to keep on heading

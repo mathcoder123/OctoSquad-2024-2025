@@ -110,8 +110,8 @@ public class TeleOpSlow extends OpMode {
     @Override
     public void start() {
         runtime.reset();
-        robot.setLeftHangServo(Constants.hangLeftClosed);
-        robot.setRightHangServo(Constants.hangRightClosed);
+//        robot.setLeftHangServo(Constants.hangLeftClosed);
+//        robot.setRightHangServo(Constants.hangRightClosed);
     }
 
     /*
@@ -224,13 +224,13 @@ public class TeleOpSlow extends OpMode {
             robot.rightLiftMotor.setPower(0);
             hangOn = false;
             robot.hang(1, Constants.hangLeftHigh, Constants.hangRightHigh);
-            robot.setLeftHangServo(Constants.hangLeftClosed);
-            robot.setRightHangServo(Constants.hangRightClosed);
+//            robot.setLeftHangServo(Constants.hangLeftClosed);
+//            robot.setRightHangServo(Constants.hangRightClosed);
         }
         else if (gamepad1.right_trigger>0.02) {
             hangOn = false;
-            robot.setLeftHangServo(Constants.hangLeftClosed);
-            robot.setRightHangServo(Constants.hangRightClosed);
+//            robot.setLeftHangServo(Constants.hangLeftClosed);
+//            robot.setRightHangServo(Constants.hangRightClosed);
             robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
             robot.leftLiftMotor.setPower(0);
             robot.rightLiftMotor.setPower(0);
@@ -255,13 +255,14 @@ public class TeleOpSlow extends OpMode {
             robot.rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.leftLiftMotor.setPower(.6);
             robot.rightLiftMotor.setPower(-.6);
-            robot.setRightHangServo(Constants.hangRightClosed);
-            robot.setLeftHangServo(Constants.hangRightClosed); }
+//            robot.setRightHangServo(Constants.hangRightClosed);
+//            robot.setLeftHangServo(Constants.hangRightClosed);
+            }
 
         if (hangOn) {
             if ((newCountL == pastCountL) && (LHDone == false) && (newCountL > -800)) {
                 // Open servo
-                robot.setLeftHangServo(Constants.hangLeftOpen);
+//                robot.setLeftHangServo(Constants.hangLeftOpen);
 
                 // Wait 1 sec
 //                ElapsedTime time = new ElapsedTime();
@@ -273,7 +274,7 @@ public class TeleOpSlow extends OpMode {
             }
             if ((newCountR == pastCountR) && (RHDone == false) && (newCountR < 800)) {
                 // set servo
-                robot.setRightHangServo(Constants.hangRightOpen);
+//                robot.setRightHangServo(Constants.hangRightOpen);
 
 //                ElapsedTime time2 = new ElapsedTime();
 //                time2.reset();

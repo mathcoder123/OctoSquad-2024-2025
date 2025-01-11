@@ -69,6 +69,8 @@ public class BasicOpMode_Iterative extends OpMode {
     public boolean LHDone = false;
     public boolean RHDone = false;
     public boolean LoopDone = false;
+    public boolean intakeOn = true;
+    static boolean reset = false;
 
     /*
     /*
@@ -79,7 +81,7 @@ public class BasicOpMode_Iterative extends OpMode {
         LoopDone = false;
         telemetry.addData("Status", "Initialized");
 
-        robot.initialize(hardwareMap);
+        robot.initialize2(hardwareMap);
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -110,8 +112,8 @@ public class BasicOpMode_Iterative extends OpMode {
     @Override
     public void start() {
         runtime.reset();
-        robot.setLeftHangServo(Constants.hangLeftClosed);
-        robot.setRightHangServo(Constants.hangRightClosed);
+//        robot.setLeftHangServo(Constants.hangLeftClosed);
+//        robot.setRightHangServo(Constants.hangRightClosed);
     }
 
     /*
@@ -126,6 +128,9 @@ public class BasicOpMode_Iterative extends OpMode {
             robot.LB.setPower(0);
             robot.RF.setPower(0);
             robot.RB.setPower(0);
+            robot.horizontalLinear.setPower(.2);
+            robot.horizontalLinear.setTargetPosition(10);
+            robot.horizontalLinear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             return;
         }
         double y = -gamepad1.left_stick_y; // Forward/backward
@@ -175,15 +180,27 @@ public class BasicOpMode_Iterative extends OpMode {
 
         // Vertical Slide - 15cm
         if (gamepad1.right_bumper) {
+            if (robot.getClawArmPosition() > 0.63) {
+                robot.setClawArmServo(0.63);
+            }
             robot.setVerticalLinear(1, Constants.verticalSlideHigh);
             robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
         } else if (gamepad1.right_trigger>0.02) {
+            if (robot.getClawArmPosition() > 0.63) {
+                robot.setClawArmServo(0.63);
+            }
             robot.setVerticalLinear(1, Constants.verticalSlideLow);
             robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
         } else if (gamepad1.left_bumper) {
+            if (robot.getClawArmPosition() > 0.63) {
+                robot.setClawArmServo(0.63);
+            }
             robot.setVerticalLinear(1, Constants.verticalSlideSubmersible);
             robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
         } else if (gamepad1.left_trigger>0.02) {
+            if (robot.getClawArmPosition() > 0.63) {
+                robot.setClawArmServo(0.63);
+            }
             robot.setVerticalLinear(1, Constants.verticalSlideBasket);
             robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
             clawOn = false;
@@ -225,13 +242,13 @@ public class BasicOpMode_Iterative extends OpMode {
             robot.rightLiftMotor.setPower(0);
             hangOn = false;
             robot.hang(1, Constants.hangLeftHigh, Constants.hangRightHigh);
-            robot.setLeftHangServo(Constants.hangLeftClosed);
-            robot.setRightHangServo(Constants.hangRightClosed);
+//            robot.setLeftHangServo(Constants.hangLeftClosed);
+//            robot.setRightHangServo(Constants.hangRightClosed);
         }
         else if (gamepad1.right_trigger>0.02) {
             hangOn = false;
-            robot.setLeftHangServo(Constants.hangLeftClosed);
-            robot.setRightHangServo(Constants.hangRightClosed);
+//            robot.setLeftHangServo(Constants.hangLeftClosed);
+//            robot.setRightHangServo(Constants.hangRightClosed);
             robot.hang(1, Constants.hangLeftLow, Constants.hangRightLow);
             robot.leftLiftMotor.setPower(0);
             robot.rightLiftMotor.setPower(0);
@@ -256,13 +273,14 @@ public class BasicOpMode_Iterative extends OpMode {
             robot.rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.leftLiftMotor.setPower(.6);
             robot.rightLiftMotor.setPower(-.6);
-            robot.setRightHangServo(Constants.hangRightClosed);
-            robot.setLeftHangServo(Constants.hangRightClosed); }
+//            robot.setRightHangServo(Constants.hangRightClosed);
+//            robot.setLeftHangServo(Constants.hangRightClosed);
+        }
 
         if (hangOn) {
             if ((newCountL == pastCountL) && (LHDone == false) && (newCountL > -800)) {
                 // Open servo
-                robot.setLeftHangServo(Constants.hangLeftOpen);
+//                robot.setLeftHangServo(Constants.hangLeftOpen);
 
                 // Wait 1 sec
 //                ElapsedTime time = new ElapsedTime();
@@ -274,7 +292,7 @@ public class BasicOpMode_Iterative extends OpMode {
             }
             if ((newCountR == pastCountR) && (RHDone == false) && (newCountR < 800)) {
                 // set servo
-                robot.setRightHangServo(Constants.hangRightOpen);
+//                robot.setRightHangServo(Constants.hangRightOpen);
 
 //                ElapsedTime time2 = new ElapsedTime();
 //                time2.reset();
@@ -299,14 +317,14 @@ public class BasicOpMode_Iterative extends OpMode {
 
         double power = -gamepad2.left_stick_y;
         if (power > 0.05) {
-            double move = robot.getClawArmPosition()+0.02;
+            double move = robot.getClawArmPosition()+0.1;
             if (move > Constants.clawArmUp) {
                 move = Constants.clawArmUp;
             }
             robot.setClawArmServo(move);
         }
         else if (power < -0.05) {
-            double move = robot.getClawArmPosition()-0.02;
+            double move = robot.getClawArmPosition()-0.1;
             if (move < Constants.clawArmDown) {
                 move = Constants.clawArmDown;
             }
@@ -324,15 +342,38 @@ public class BasicOpMode_Iterative extends OpMode {
             robot.setClawArmServo(Constants.clawArmDown);
         }
 
-        if (gamepad2.right_trigger > 0.02) {
+        if ((gamepad2.right_trigger > 0.02) && ((robot.getClawArmPosition() > (Constants.clawArmUp - 0.01)) || (robot.getClawArmPosition() < 0.4))) {
             robot.setClawServo(Constants.clawOpen);
+        }
+        else if ((gamepad2.right_bumper)  && ((robot.getClawArmPosition() > (Constants.clawArmUp - 0.01)) || (robot.getClawArmPosition() < 0.4))){
+            robot.setClawServo(Constants.clawOpenBig);
         }
         else {
             robot.setClawServo(Constants.clawClose);
         }
 
+        if (gamepad2.left_bumper){
+            intakeOn = true;
+        }
+        else if (gamepad2.a){
+            intakeOn = false;
+        }
+
+        if (gamepad2.left_trigger > 0.02) {
+            robot.intakeL.setPosition(-1);
+            robot.intakeR.setPosition(1);
+        }
+        else if (intakeOn) {
+            robot.intakeL.setPosition(1);
+            robot.intakeR.setPosition(-1);
+        }
+        else {
+            robot.intakeL.setPosition(0.5);
+            robot.intakeR.setPosition(0.5);
+        }
+
         double power2 = -gamepad2.right_stick_y;
-        if (power2 > 0.01 && robot.getHorizontalSlidePosition() > -890) {// && robot.getHorizontalSlidePosition() > -890) {
+        if (power2 > 0.01 && robot.getHorizontalSlidePosition() > -900) {// && robot.getHorizontalSlidePosition() > -890) {
             robot.setHorizontalLinearPower(-power2); }
         else if ((power2 < -0.01 & robot.getHorizontalSlidePosition() < 0)){// && robot.getHorizontalSlidePosition() < 0) {
             robot.setHorizontalLinearPower(-power2);}
